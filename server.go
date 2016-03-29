@@ -1,16 +1,14 @@
 package main
 
 import (
+    "log"
     "net/http"
-    "html/template"
 )
 
-func handler(w http.ResponseWriter, r *http.Request) {
-    t, _ := template.ParseFiles("index.html")
-    t.Execute(w, "No data")
-}
-
 func main() {
-    http.HandleFunc("/", handler)
+    fs := http.FileServer(http.Dir("public"))
+    http.Handle("/", fs)
+
+    log.Println("Listening...")
     http.ListenAndServe(":8000", nil)
 }
