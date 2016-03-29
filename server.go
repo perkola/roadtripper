@@ -1,17 +1,16 @@
 package main
 
 import (
-  "io"
-  "net/http"
-  "fmt"
+    "net/http"
+    "html/template"
 )
 
-func handleRoot(w http.ResponseWriter, r *http.Request) {
-  io.WriteString(w, "Hello World!")
+func handler(w http.ResponseWriter, r *http.Request) {
+    t, _ := template.ParseFiles("index.html")
+    t.Execute(w, "No data")
 }
 
 func main() {
-  http.HandleFunc("/", handleRoot)
-  http.ListenAndServe(":8000", nil)
-  fmt.Println("Server is running")
+    http.HandleFunc("/", handler)
+    http.ListenAndServe(":8000", nil)
 }
