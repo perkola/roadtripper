@@ -3,3 +3,4 @@ public/css
 public/js
 *.key
 server/target/*
+.env
