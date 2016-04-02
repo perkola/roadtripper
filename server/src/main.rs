@@ -12,7 +12,8 @@ use iron::prelude::*;
 use staticfile::Static;
 use mount::Mount;
 use std::path::Path;
-use std::io::Read;
+use std::io::prelude::*;
+use std::fs::File;
 use rustc_serialize::json;
 use rustc_serialize::json::Json;
 use hyper::Client;
@@ -62,6 +63,13 @@ fn main() {
             .gen_ascii_chars()
             .take(10)
             .collect::<String>();
+
+        let file_path_string = &("../roadtrips/".to_string() + &id + ".rdt");
+        let file_path = Path::new(file_path_string);
+        let mut f = File::create(file_path).unwrap();
+        f.write_all(&payload.into_bytes());
+
+        println!("Wrote to file {}", file_path_string);
 
         Ok(Response::with(((status::Ok, id))))
     }
