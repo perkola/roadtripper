@@ -67,18 +67,35 @@ fn main() {
         let file_path_string = &("../roadtrips/".to_string() + &id + ".rdt");
         let file_path = Path::new(file_path_string);
         let mut f = File::create(file_path).unwrap();
+
+        // TODO: Error handling
         f.write_all(&payload.into_bytes());
 
         println!("Wrote to file {}", file_path_string);
 
-        Ok(Response::with(((status::Ok, id))))
+        Ok(Response::with(((status::Ok), id)))
+    }
+
+    fn get_roadtrip(res: &mut Request) -> IronResult<Response> {
+        let mut id = String::new();
+        res.body.read_to_string(&mut id).unwrap();
+
+        let file_path_string = &("../roadtrips/".to_string() + &id + ".rdt");
+
+        // TODO: Error handling
+        let mut f = File::open(file_path_string).unwrap();
+        let mut s = String::new();
+        f.read_to_string(&mut s);
+
+        Ok(Response::with(((status::Ok), s)))
     }
 
     let mut mount = Mount::new();
     mount
         .mount("/index.html", Static::new(Path::new("../public/index.html")))
         .mount("/api/citydistance", dist_cities)
-        .mount("/api/roadtrip/save", save_roadtrip);
+        .mount("/api/roadtrip/save", save_roadtrip)
+        .mount("/roadtrip", get_roadtrip);
     println!("Listening on port 8000");
     Iron::new(mount).http("localhost:8000").unwrap();
 }
