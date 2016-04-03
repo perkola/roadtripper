@@ -1,0 +1,14 @@
+[package]
+name = "server"
+version = "0.1.0"
+authors = ["Marcus Nordberg <nordberg@github.com>"]
+
+[dependencies]
+iron = "*"
+router = "*"
+staticfile = "*"
+mount = "*"
+rustc-serialize = "*"
+hyper = "*"
+dotenv = "*"
+rand = "*"
