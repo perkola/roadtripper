@@ -19,6 +19,11 @@ gulp.task('stylus', function() {
             'include css': true
         }))
         .pipe(gulp.dest('./public/css'));
-})
+});
 
-gulp.task('default', ['scripts', 'stylus']);
+gulp.task('watch', function() {
+    gulp.watch(['src/js/**/*.{js,vue}'], ['scripts'])
+    gulp.watch(['src/stylus/**/*.styl'], ['stylus'])
+});
+
+gulp.task('default', ['scripts', 'stylus', 'watch']);
