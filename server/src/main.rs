@@ -9,6 +9,7 @@ extern crate rand;
 
 use iron::status;
 use iron::prelude::*;
+use iron::error::HttpError;
 use staticfile::Static;
 use mount::Mount;
 use std::path::Path;
@@ -78,6 +79,8 @@ fn main() {
 
     fn get_roadtrip(res: &mut Request) -> IronResult<Response> {
         let mut id = String::new();
+
+        // TODO: Error handling
         res.body.read_to_string(&mut id).unwrap();
 
         let file_path_string = &("../roadtrips/".to_string() + &id + ".rdt");
@@ -86,7 +89,6 @@ fn main() {
         let mut f = File::open(file_path_string).unwrap();
         let mut s = String::new();
         f.read_to_string(&mut s);
-
         Ok(Response::with(((status::Ok), s)))
     }
 
