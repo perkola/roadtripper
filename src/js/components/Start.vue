@@ -8,6 +8,7 @@ div.intro
         div.date-to
             h2 End date
             dp
+        button(v-link="{ path: 'plan' }").go-btn Go!
 </template>
 
 <script>

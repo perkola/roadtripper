@@ -5,6 +5,7 @@ Vue.use(VueRouter)
 
 var App = require('./components/App.vue')
 var Start = require('./components/Start.vue')
+var City = require('./components/City.vue')
 
 /*
 new Vue({
@@ -23,6 +24,9 @@ router.map({
     },
     '/plan': {
         component: require('./components/Planner.vue')
+    },
+    '/city': {
+        component: City
     },
     '*': {
         component: {
