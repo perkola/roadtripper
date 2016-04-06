@@ -5,3 +5,4 @@ public/js
 server/target/*
 .env
 roadtrips/*.rdt
+*.go
