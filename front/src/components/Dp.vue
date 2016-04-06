@@ -24,7 +24,6 @@ div.datepicker
 <script>
 import m           from 'moment'
 import DateRange   from 'moment-range'
-import { setDate } from '../vuex/actions'
 
 export default {
 

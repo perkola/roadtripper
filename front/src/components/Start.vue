@@ -10,3 +10,13 @@ div.intro
             dp(name="enddate")
         button(v-link="{ path: 'plan' }").go-btn Go!
 </template>
+
+<script>
+import dp from './Dp.vue'
+
+export default {
+    components: {
+        dp
+    }
+}
+</script>
