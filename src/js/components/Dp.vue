@@ -22,8 +22,9 @@ div.datepicker
 </template>
 
 <script>
-import m          from 'moment'
-import DateRange  from 'moment-range'
+import m           from 'moment'
+import DateRange   from 'moment-range'
+import { setDate } from '../vuex/actions'
 
 export default {
 
@@ -38,6 +39,9 @@ export default {
         },
         selected: {
             default: m()
+        },
+        name: {
+            type: String,
         }
     },
 
@@ -90,6 +94,7 @@ export default {
             this.$set('start', moment)
             this.$set('visible', false)
             document.activeElement.blur()
+            localStorage.setItem(this.name, moment)
         },
         isToday (moment) {
             return moment.isSame( m(), 'day' )

@@ -10,15 +10,3 @@ div.intro
             dp(name="enddate")
         button(v-link="{ path: 'plan' }").go-btn Go!
 </template>
-
-<script>
-import dp from './Dp.vue'
-import m  from 'moment'
-import { setStartDate, setEndDate } from '../vuex/actions'
-
-export default {
-    components: {
-        dp
-    }
-}
-</script>
