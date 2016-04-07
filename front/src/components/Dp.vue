@@ -1,24 +1,28 @@
 <template lang="jade">
 div.datepicker
-    div.datepicker__selected(@click="visible = !visible") {{ selected.format('MMMM, D - YYYY') }}
+    div.datepicker__selected(@click="show = !show") {{ selected.format('MMMM, D - YYYY') }}
 
-    div.datepicker__calendar(v-if="visible")
-        div.calendar__heading
-            button(@click.prevent.stop="prev()") &laquo;
-            div.calendar_current-month {{ currentMonth }}
-            button(@click.prevent.stop="next()") &raquo;
+    div.datepicker__mask(v-show="show", transition="modal")
+        div.datepicker__wrapper
+            div.datepicker__container
+                a.datepicker__close(@click="show = false") #[i.material-icons close]
+                div.datepicker__heading
+                    h1 {{ display }}
+                    span(@click.prevent.stop="prev()") #[i.material-icons keyboard_arrow_left]
+                    span {{ currentMonth }}
+                    span(@click.prevent.stop="next()") #[i.material-icons keyboard_arrow_right]
 
-        div.calendar
-            div.calendar__weekdays
-                div.calendar__weekday(v-for="day in weekDays") {{ day }}
+                div.datepicker__calendar
+                    div.datepicker__calendar__weekdays
+                        div.datepicker__calendar__weekday(v-for="day in weekDays") {{ day }}
 
-            div.calendar__days
-                div.calendar__day(
-                    v-for="day in calendarDays",
-                    :class="{ 'calendar__day--shade': !isCurrentMonth(day), 'calendar__day--today': isToday(day), 'calendar__day--selected': isSelected(day) }",
-                    @click="selection(day)"
-                )
-                    span {{ day.format('D') }}
+                    div.datepicker__calendar__days
+                        div.datepicker__calendar__day(
+                            v-for="day in calendarDays",
+                            :class="{ 'datepicker__calendar__day--shade': !isCurrentMonth(day), 'datepicker__calendar__day--today': isToday(day), 'datepicker__calendar__day--selected': isSelected(day) }",
+                            @click="selection(day)"
+                        )
+                            span {{ day.format('D') }}
 </template>
 
 <script>
@@ -41,12 +45,15 @@ export default {
         },
         name: {
             type: String,
+        },
+        display: {
+            type: String
         }
     },
 
     data () {
         return {
-            visible: false,
+            show: false,
             //selected: m()
         }
     },
@@ -91,7 +98,7 @@ export default {
         selection (moment) {
             this.$set('selected', moment)
             this.$set('start', moment)
-            this.$set('visible', false)
+            this.$set('show', false)
             document.activeElement.blur()
             localStorage.setItem(this.name, moment)
         },

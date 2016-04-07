@@ -1,22 +1,46 @@
 .datepicker
     width auto
     display block
-    box-shadow 0 0 20px darken(brand, 50%)
-    width 250px
 
     &__selected
-        background lighten(brand, 66%)
-        color black
+        background white
+        color brand
         text-align center
         font-family font-brand
-        padding 20px 5px
         font-size 24px
         cursor pointer
 
-    &__calendar
-        background white
+    &__mask
+        position fixed
+        z-index 9998
+        top 0
+        left 0
+        width 100%
+        height 100%
+        display: table
+        transition opacity .3s ease
+        background-color rgba(black, 0.5)
 
-        .calendar__heading
+    &__wrapper
+        display table-cell
+        vertical-align middle
+
+    &__container
+        background white
+        z-index 9999
+        width 300px
+        margin 0px auto
+        position relative
+
+        .datepicker__close
+            position absolute
+            right 10px
+            top 10px
+            color white
+            cursor pointer
+            z-index 9999
+
+        .datepicker__heading
             background brand
             text-align center
             padding 10px
@@ -25,170 +49,66 @@
             font-family font-special
             position relative
 
-            & > *
+            h1
+                display block
+
+            span
                 display inline-block
+                line-height 32px
+                margin 0
+                padding 0
+                vertical-align middle
+                display inline-flex
 
-            button
-                background white
-                border none
-                padding 0 10px
-                font-size 22px
-                cursor pointer
-                align(vertical)
+                i
+                    font-size 32px
+                    cursor pointer
 
-                &:hover
-                    background darken(white, 10%)
-
-                &:first-child
-                    left 10px
-
-                &:last-child
-                    right 10px
-
-        .calendar__weekdays
+        .datepicker__calendar__weekdays
             display flex
             flex-direction row
 
-        .calendar__weekday
+        .datepicker__calendar__weekday
             flex 1
             padding 10px 0
             text-align center
             background lighten(brand, 20%)
             color white
 
-        .calendar__days
+        .datepicker__calendar__days
             display flex
             flex-direction row
             flex-wrap wrap
 
-        .calendar__day
+        .datepicker__calendar__day
             flex 1
-            padding 17px
+            padding 20px
             position relative
             cursor pointer
             color black
-            transition all 0.1s ease
+            transition all 0.25s ease
 
             &:hover
-                background lighten(brand, 20%)
+                background brand
                 color white
+                font-size 22px
 
             &--shade
                 background darken(white, 10%)
 
             &--today
-                background orange
-                color white
+                color brand
+                font-size 22px
 
             &--selected
-                background brand
+                background lighten(brand, 20%)
                 color white
+                font-size 22px
 
             span
                 position absolute
                 align()
-/*
-.ui-datepicker .md-icon
-    flex: 0 0 auto;
-    margin-right: 8px;
-    width: 18px;
-    height: 18px;
 
-
-  %cell {
-    flex: 0 0 auto;
-    width: 30px;
-    text-align: center;
-    padding: 8px 0;
-  }
-
-
-.ui-datepicker {
-    position: relative;
-
-    &:focus {
-      outline: none;
-    }
-  }
-
-  .ui-datepicker-input {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    padding: 4px 8px;
-
-    //@include typeography-style('menu');
-
-    .selected {
-      flex: 0 0 85px;
-    }
-  }
-
-  .ui-datepicker-calendar {
-    position: absolute;
-    top: 100%;
-    left: 0;
-
-    display: inline-flex;
-    flex-direction: column;
-    padding: 8px;
-    background-color: colour('white');
-    color: colour-rgba('black', .84);
-
-    //@include typeography-style('caption');
-    //@include z-index('dropdown');
-    //@include z-depth(1);
-
-    .heading {
-      display: flex;
-      flex-direction: row;
-    }
-
-    .currentMonth {
-      flex: 1;
-      text-align: center;
-    }
-
-    .calendar {
-      display: inline-flex;
-      flex-direction: column;
-      width: 210px;
-    }
-
-    .weekdays,
-    .days {
-      display: inline-flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-    }
-
-    .day {
-      height: 30px;
-
-      //@extend %cell;
-
-      &.isToday {
-        font-weight: bolder;
-      }
-
-      &.isSelected {
-        background-color: colour-rgba('black', .14);
-      }
-
-      &.isPadding {
-        color : colour-rgba('black', .34);
-      }
-
-      &:hover {
-        cursor: pointer;
-        border-bottom: 5px solid colour-rgba('y', .54);
-      }
-
-    }
-
-    .weekday {
-      //@extend %cell;
-    }
-
-  }
-*/
+.modal-enter, .modal-leave {
+  opacity: 0;
+}
