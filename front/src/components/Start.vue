@@ -6,10 +6,8 @@ div.intro
         div.intro__pick
             div
                 div.date-from
-                    h2 Start date
                     dp(name="startdate", display="Start date")
                 div.date-to
-                    h2 End date
                     dp(name="enddate", display="End date")
             p.intro__go
                 a(v-link="{ path: 'plan' }").go-btn Create roadtrip
