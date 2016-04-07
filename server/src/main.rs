@@ -38,13 +38,15 @@ fn main() {
         let mut to = obj.get("to").unwrap().to_string();
 
         /* the strings are parsed as "city" rather than city. So we strip "". */
-        from = (&from[1..from.len()-1]).to_string();
-        to = (&to[1..to.len()-1]).to_string();
+        from = (&from[1..from.len()-1]).to_string().replace(" ", "%20");
+        to = (&to[1..to.len()-1]).to_string().replace(" ", "%20");
 
         /* TODO: HTTP post to map api */
         /* TODO: URL ENCODING */
         let key = env::var("KEY").unwrap();
         let url_query = format!("http://www.mapquestapi.com/directions/v2/route?from={}&to={}&key={}", from, to, key);
+
+        println!("ENCODED: {}", url_query);
 
         let client = Client::new();
         let mut res = client.get(&url_query).send().unwrap();
