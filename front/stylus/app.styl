@@ -2,7 +2,7 @@ brand = tomato
 white = #f0f0f0
 black = #303030
 
-font-brand   = 'Amaranth', sans-serif
+font-brand   = 'PT Sans', sans-serif
 font-special = 'Amaranth', sans-serif
 
 @import 'jeet'
@@ -21,27 +21,39 @@ body
 .intro
 
     &__content
-        center(500px)
-
-    &__pick
-        width 500px
+        center(400px)
 
     &__title
         font-family font-special
         color white
         text-transform uppercase
-        font-size 72px
+        font-size 64px
         letter-spacing 2px
         margin 0
         line-height 1
         text-align center
+        margin-top 100px
+        text-shadow 2px 2px 0 darken(white, 33%)
+
+p.footer
+    color black
+    position absolute
+    margin 0
+    bottom 10px
+    display block
+    text-align center
+    width 100%
+    font-size 12px
 
 h2
     font-family font-special
-    color lighten(brand, 66%)
+    color white
     font-weight 400
-    font-size 32px
+    font-size 20px
     text-align center
+    padding 10px
+    margin 0
+    background brand
 
 .date-from, .date-to
     column(1/2)

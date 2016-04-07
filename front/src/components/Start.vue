@@ -13,6 +13,7 @@ div.intro
                     dp(name="enddate", display="End date")
             p.intro__go
                 a(v-link="{ path: 'plan' }").go-btn Create roadtrip
+p.footer Copyright &copy; 2016
 </template>
 
 <script>

@@ -4,11 +4,17 @@
 
     &__selected
         background white
-        color brand
-        text-align center
+        color black
+        text-align left
         font-family font-brand
-        font-size 24px
+        font-size 14px
+        padding 10px
+        line-height 20px
         cursor pointer
+
+        i
+            float right
+            font-size 20px
 
     &__mask
         position fixed
@@ -79,6 +85,7 @@
             display flex
             flex-direction row
             flex-wrap wrap
+            font-family font-brand
 
         .datepicker__calendar__day
             flex 1
@@ -91,19 +98,25 @@
             &:hover
                 background brand
                 color white
-                font-size 22px
 
             &--shade
                 background darken(white, 10%)
 
-            &--today
-                color brand
-                font-size 22px
+            &--today:after
+                    position absolute
+                    bottom 0
+                    right 0
+                    content ''
+                    display block
+                    width 0
+                    height 0
+                    border-top 20px solid transparent
+                    border-bottom 10px solid lighten(brand, 20%)
+                    border-left 10px solid transparent
 
             &--selected
                 background lighten(brand, 20%)
                 color white
-                font-size 22px
 
             span
                 position absolute
