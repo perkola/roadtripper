@@ -1,7 +1,6 @@
 <template lang="jade">
-div.roadtrip-city(:class="yolo")
-  | color-{{ class }}
-  div.roadtrip-city__content(v-on:click="getCityDistance")
+div.roadtrip-city
+  div.roadtrip-city__content(:class="yolo", v-on:click="getCityDistance")
     div.roadtrip-city__content__title
       {{ city.name }}
     div.roadtrip-city__content__content
