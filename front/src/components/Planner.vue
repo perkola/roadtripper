@@ -13,20 +13,7 @@ div.planner
 
   div.planner-cities
     div.roadtrip-cities(v-for="city in cities")
-      div.roadtrip-city
-        div.roadtrip-city__content(v-on:click="getCityDistance")
-          div.roadtrip-city__content__title
-            {{ city.name }}
-          div.roadtrip-city__content__content
-            Activities
-            div.roadtrip-city__activities(v-for="act in city.activities")
-              {{ act.name }} #[i.roadtrip-city__activities__location at {{ act.location }}]
-          //
-            input(form="POST").roadtrip-city__add-activity
-            i.material-icons favorite
-        div.roadtrip-city__transition
-          //i.material-icons.roadtrip-city__transition__icon arrow forward
-          span.roadtrip-city__transition__time 13h37m
+      city(:city="city")
 
   Timeline
 
@@ -36,6 +23,7 @@ div.planner
 
 import {load, Map } from 'vue-google-maps'
 import Timeline from './Timeline.vue'
+import City from './City.vue'
 
 load('AIzaSyDB69x_sL1X3tawNIFdht4prhEW9bymssc', '3.23', ['places']);
 
@@ -55,7 +43,7 @@ export default {
     },
     addCity: function() {
       console.log(this.cities)
-      var city = { name: this.city, activities: [{name: "Roll", location: "KTH"}]}
+      var city = { name: this.city, activities: []}
       this.cities.push(city)
     },
     getCityDistance: function() {
@@ -103,7 +91,8 @@ export default {
   },
   components: {
     Map,
-    Timeline
+    Timeline,
+    City
   }
 };
 </script>
