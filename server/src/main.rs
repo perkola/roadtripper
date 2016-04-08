@@ -71,8 +71,10 @@ fn main() {
         let file_path = Path::new(file_path_string);
         let mut f = File::create(file_path).unwrap();
 
-        // TODO: Error handling
-        f.write_all(&payload.into_bytes());
+        match f.write_all(&payload.into_bytes()) {
+            Ok(_) => (),
+            Err(err) => return Err(IronError::new(HttpError::Io(err), status::InternalServerError))
+        };
 
         println!("Wrote to file {}", file_path_string);
 
@@ -83,7 +85,10 @@ fn main() {
         let mut id = String::new();
 
         // TODO: Error handling
-        res.body.read_to_string(&mut id).unwrap();
+        match res.body.read_to_string(&mut id) {
+            Ok(_) => (),
+            Err(err) => return Err(IronError::new(HttpError::Io(err), status::InternalServerError))
+        };
 
         let file_path_string = &("../roadtrips/".to_string() + &id + ".rdt");
 
@@ -93,7 +98,10 @@ fn main() {
             Err(err) => return Err(IronError::new(HttpError::Io(err), status::InternalServerError))
         };
         let mut s = String::new();
-        f.read_to_string(&mut s);
+        match f.read_to_string(&mut s) {
+            Ok(_) => (),
+            Err(err) => return Err(IronError::new(HttpError::Io(err), status::InternalServerError))
+        };
         Ok(Response::with(((status::Ok), s)))
     }
 
