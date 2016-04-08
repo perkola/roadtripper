@@ -12,8 +12,7 @@ div.planner
       button(v-on:click="addCity") Add city
 
   div.planner-cities
-    div.roadtrip-cities(v-for="(index, city) in cities")
-      city(:city="city", :class="index")
+      city(v-for="(index, city) in cities", :city="city", :class="index")
 
   Timeline
 
