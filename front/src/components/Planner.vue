@@ -8,8 +8,9 @@
 div.planner
   div.planner__add-city
     div.planner__add-city__input
-      input(form="POST", placeholder="Las Vegas", v-model="city")
+      input(form="POST", placeholder="San Francisco", v-model="city")
       button(v-on:click="addCity") Add city
+
   div.planner-cities
     div.roadtrip-cities(v-for="city in cities")
       div.roadtrip-city
@@ -45,7 +46,7 @@ export default {
       center: { lat: 10, lng: 11 },
       zoom: 5,
       mapType: 'terrain',
-      city: 'San Francisco'
+      city: null
     }
   },
   methods: {
