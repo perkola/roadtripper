@@ -32,7 +32,7 @@ export default {
   name: 'Planner',
   data: function data() {
     return {
-      cities: [],
+      cities: [{name: "Stockholm", activities: []}],
       center: { lat: 10, lng: 11 },
       zoom: 5,
       mapType: 'terrain',

@@ -33,7 +33,6 @@
     display flex
 .roadtrip-city
     width 300px
-    height 200px
     padding 0 20px
     margin-top 80px
     float left
@@ -75,13 +74,19 @@
         &__content
             box-sizing border-box
             padding 5px
-            & > input
-                padding 8px
-                border none
-                font-family font-brand
-                line-height 1.5
-                font-size 14px
-                height 18px
+            &__add-activity
+                position relative
+                &__icon
+                    display block
+                    vertical-align middle
+                    color rgba(black, 0.4)
+                &__input
+                    padding 8px
+                    border none
+                    font-family font-brand
+                    line-height 1.5
+                    font-size 14px
+                    height 18px
     &__transition
         position relative
         height 100%

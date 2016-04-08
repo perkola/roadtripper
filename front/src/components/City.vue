@@ -10,9 +10,11 @@ div.roadtrip-city
     div.roadtrip-city__content__content
       | Activities
       div.roadtrip-city__activities(v-for="act in city.activities")
-        {{ act.name }} #[i.roadtrip-city__activities__location at {{ act.location }}]
+        {{ act.name }}
       br
-      i.material-icons add_circle_outline
+      div.roadtrip-city__content__content__add-activity
+          i.material-icons.roadtrip-city__content__content__add-activity__icon add
+          input(placeholder="Run", v-on:keyup.enter="addActivity", v-model="addAct").roadtrip-city__content__content__add-activity__input
     //
       input(form="POST").roadtrip-city__add-activity
       i.material-icons favorite
@@ -64,6 +66,14 @@ export default {
             if (this.city.count > 0) {
                 this.city.count--
             }
+        },
+        addActivity() {
+            if (this.city['activities'].length > 0) {
+                this.city['activities'].push({name: this.addAct})
+            } else {
+                this.city['activities'] = [{name: this.addAct }]
+            }
+            this.addAct = ''
         }
     }
 }
