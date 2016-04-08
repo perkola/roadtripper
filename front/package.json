@@ -51,6 +51,7 @@
     "uglify-js": "^2.5.0",
     "vue-google-maps": "^0.1.16",
     "vue-hot-reload-api": "^1.2.2",
+    "vue-resource": "^0.7.0",
     "vue-router": "^0.7.11",
     "vueify": "^8.0.0",
     "vueify-insert-css": "^1.0.0",
