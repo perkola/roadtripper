@@ -9,6 +9,7 @@ font-special = 'Amaranth', sans-serif
 @import 'datepicker'
 @import 'city'
 @import 'planner'
+@import 'timeline'
 
 body
     margin 0
@@ -45,16 +46,6 @@ p.footer
     width 100%
     font-size 12px
 
-h2
-    font-family font-special
-    color white
-    font-weight 400
-    font-size 20px
-    text-align center
-    padding 10px
-    margin 0
-    background brand
-
 .date-from, .date-to
     column(1/2)
 
@@ -71,48 +62,3 @@ p.intro__go
     font-family font-special
     display inline-block
     margin-top 15px
-
-
-.timeline
-    //align(horizontal)
-    position absolute
-    bottom 0
-    display flex
-    flex-direction row
-    width 100%
-
-    &__date
-        font-family font-brand
-        line-height 1
-        padding 10px
-        flex 1
-        transition all 0.25s ease
-
-        &:nth-child(even)
-            background darken(white, 5%)
-
-        &:hover
-            background brand
-            cursor pointer
-
-            span.day
-                color white
-                font-size 32px
-
-            span.month
-                color darken(white, 10%)
-
-        span.day
-            color tomato
-            display block
-            font-size 24px
-            text-align center
-            line-height 24px
-
-        span.month
-            color lighten(black, 30%)
-            font-size 14px
-            text-align center
-            display block
-            text-transform uppercase
-            line-height 14px

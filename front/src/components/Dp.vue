@@ -1,5 +1,6 @@
 <template lang="jade">
 div.datepicker
+    div.datepicker__title(@click="show = !show") {{ display }}
     div.datepicker__selected(@click="show = !show")
         {{ selected.format('MMMM, D - YYYY') }}
         #[i.material-icons date_range]
@@ -30,6 +31,7 @@ div.datepicker
 <script>
 import m           from 'moment'
 import DateRange   from 'moment-range'
+import { setDate } from '../vuex/actions'
 
 export default {
 
@@ -102,7 +104,8 @@ export default {
             this.$set('start', moment)
             this.$set('show', false)
             document.activeElement.blur()
-            localStorage.setItem(this.name, moment)
+            console.log(moment)
+            setDate(this.$store, this.name, moment)
         },
         isToday (moment) {
             return moment.isSame( m(), 'day' )
