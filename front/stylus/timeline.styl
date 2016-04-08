@@ -12,7 +12,7 @@
         flex 1
         transition all 0.25s ease
         background rgba(white, 0.75)
-        border-top 5px solid blue
+        border-top 10px solid darken(white, 10%)
 
         &:nth-child(even)
             background white
@@ -20,6 +20,7 @@
         &:hover
             background brand
             cursor pointer
+            border-top 10px solid brand !important
 
             span.day
                 color white
@@ -42,3 +43,9 @@
             display block
             text-transform uppercase
             line-height 14px
+
+.color-0
+    border-top 10px solid #C42E8F
+
+.color-1
+    border-top 10px solid #FFCA3C

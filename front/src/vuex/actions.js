@@ -6,3 +6,7 @@ export const setDate = ({ dispatch }, name, moment) => {
         dispatch("SET_END_DATE", moment)
     }
 }
+
+export const addCity = ({ dispatch }, city) => {
+    dispatch("ADD_CITY", city)
+}

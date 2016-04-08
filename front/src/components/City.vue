@@ -1,12 +1,13 @@
 <template lang="jade">
-div.roadtrip-city
+div.roadtrip-city(:class="yolo")
+  | color-{{ class }}
   div.roadtrip-city__content(v-on:click="getCityDistance")
     div.roadtrip-city__content__title
       {{ city.name }}
     div.roadtrip-city__content__content
-      button(@click="increment") +
-      {{ count }} 3
-      button(@click="decrement") -
+      button(@click="decrement()") -
+      {{ city.count }}
+      button(@click="increment()") +
       | days
       br
       | Activities
@@ -40,7 +41,28 @@ export default {
         city: {
             type: Object,
             require: true
+        },
+        class: {
+
         }
     },
+    computed: {
+        yolo() {
+            return 'color-' + this.class
+        }
+    }
+    data() {
+        return {
+            count: 1
+        }
+    },
+    methods: {
+        increment() {
+            this.city.count++
+        },
+        decrement() {
+            this.city.count--
+        }
+    }
 }
 </script>

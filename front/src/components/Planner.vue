@@ -12,8 +12,8 @@ div.planner
       button(v-on:click="addCity") Add city
 
   div.planner-cities
-    div.roadtrip-cities(v-for="city in cities")
-      city(:city="city")
+    div.roadtrip-cities(v-for="(index, city) in cities")
+      city(:city="city", :class="index")
 
   Timeline
 
@@ -21,13 +21,15 @@ div.planner
 
 <script>
 
-import {load, Map } from 'vue-google-maps'
+//import {load, Map } from 'vue-google-maps'
 import Timeline from './Timeline.vue'
 import City from './City.vue'
+import { addCity } from '../vuex/actions'
 
-load('AIzaSyDB69x_sL1X3tawNIFdht4prhEW9bymssc', '3.23', ['places']);
+//load('AIzaSyDB69x_sL1X3tawNIFdht4prhEW9bymssc', '3.23', ['places']);
 
 export default {
+  name: 'Planner',
   data: function data() {
     return {
       cities: [],
@@ -43,8 +45,10 @@ export default {
     },
     addCity: function() {
       console.log(this.cities)
-      var city = { name: this.city, activities: []}
+      var city = { name: this.city, activities: [], count: 1 }
       this.cities.push(city)
+      this.city = null
+      addCity(this.$store, city)
     },
     getCityDistance: function() {
       makeCorsRequest()
@@ -90,7 +94,7 @@ export default {
     }
   },
   components: {
-    Map,
+    //Map,
     Timeline,
     City
   }

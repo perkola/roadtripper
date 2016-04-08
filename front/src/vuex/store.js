@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 const state = {
     startdate: null,
-    enddate: null
+    enddate: null,
+    cities: []
 }
 
 const mutations = {
@@ -14,6 +15,9 @@ const mutations = {
     },
     SET_END_DATE(state, moment) {
         state.enddate = moment
+    },
+    ADD_CITY(state, city) {
+        state.cities.push(city)
     }
 }
 
