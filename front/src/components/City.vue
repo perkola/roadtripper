@@ -12,6 +12,8 @@ div.roadtrip-city
       | Activities
       div.roadtrip-city__activities(v-for="act in city.activities")
         {{ act.name }} #[i.roadtrip-city__activities__location at {{ act.location }}]
+      br
+      i.material-icons add_circle_outline
     //
       input(form="POST").roadtrip-city__add-activity
       i.material-icons favorite
