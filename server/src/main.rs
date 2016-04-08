@@ -88,7 +88,10 @@ fn main() {
         let file_path_string = &("../roadtrips/".to_string() + &id + ".rdt");
 
         // TODO: Error handling
-        let mut f = File::open(file_path_string).unwrap();
+        let mut f = match File::open(file_path_string) {
+            Ok(val) => val,
+            Err(err) => return Err(IronError::new(HttpError::Io(err), status::InternalServerError))
+        };
         let mut s = String::new();
         f.read_to_string(&mut s);
         Ok(Response::with(((status::Ok), s)))
