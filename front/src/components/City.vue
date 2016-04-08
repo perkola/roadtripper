@@ -50,7 +50,7 @@ export default {
         yolo() {
             return 'color-' + this.class
         }
-    }
+    },
     data() {
         return {
             count: 1
@@ -61,7 +61,9 @@ export default {
             this.city.count++
         },
         decrement() {
-            this.city.count--
+            if (this.city.count > 0) {
+                this.city.count--
+            }
         }
     }
 }
