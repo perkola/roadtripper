@@ -2,13 +2,12 @@
 div.roadtrip-city
   div.roadtrip-city__content(:class="yolo", v-on:click="getCityDistance")
     div.roadtrip-city__content__title
-      {{ city.name }}
+      span {{ city.name }}
+      div
+        button(@click="decrement()") #[i.material-icons remove]
+        span {{ city.count }} days
+        button(@click="increment()") #[i.material-icons add]
     div.roadtrip-city__content__content
-      button(@click="decrement()") -
-      {{ city.count }}
-      button(@click="increment()") +
-      | days
-      br
       | Activities
       div.roadtrip-city__activities(v-for="act in city.activities")
         {{ act.name }} #[i.roadtrip-city__activities__location at {{ act.location }}]
