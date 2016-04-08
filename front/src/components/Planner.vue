@@ -6,6 +6,10 @@
       :map-type-id.sync="mapType"
   )
 div.planner
+  div.planner__add-city
+    div.planner__add-city__input
+      input(form="POST", placeholder="Las Vegas", v-model="city")
+      button(v-on:click="addCity") Add city
   div.planner-cities
     div.roadtrip-cities(v-for="city in cities")
       div.roadtrip-city
@@ -23,14 +27,6 @@ div.planner
           //i.material-icons.roadtrip-city__transition__icon arrow forward
           span.roadtrip-city__transition__time 13h37m
 
-    div.roadtrip-cities
-      div.roadtrip-city
-        div.roadtrip-city__content(v-on:click="addCity")
-          div.roadtrip-city__content__title
-            | Add city
-          div.roadtrip-city__content__add-circle
-            i.material-icons.md-48 add_circle_outline
-
   Timeline
 
 </template>
@@ -45,11 +41,12 @@ load('AIzaSyDB69x_sL1X3tawNIFdht4prhEW9bymssc', '3.23', ['places']);
 export default {
   data: function data() {
     return {
-      cities: [{ name: 'Dallas', activities: [{name: "Cykla", location: "Harbour"}, {name: "Jump", location: "The Great Wheel"}]}, { name: 'San Francisco', activities: [{name: "Springa", location: "The Beach"}]}],
+      cities: [],
       center: { lat: 10, lng: 11 },
       zoom: 5,
       mapType: 'terrain',
-    };
+      city: 'San Francisco'
+    }
   },
   methods: {
     showCity: function(e) {
@@ -57,7 +54,7 @@ export default {
     },
     addCity: function() {
       console.log(this.cities)
-      var city = { name: "Stockholm", activities: [{name: "Roll", location: "KTH"}]}
+      var city = { name: this.city, activities: [{name: "Roll", location: "KTH"}]}
       this.cities.push(city)
     },
     getCityDistance: function() {
