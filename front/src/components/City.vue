@@ -20,7 +20,10 @@ div.roadtrip-city
       i.material-icons favorite
   div.roadtrip-city__transition
     //i.material-icons.roadtrip-city__transition__icon arrow forward
-    span.roadtrip-city__transition__time 13h37m
+    span.roadtrip-city__transition__time
+        span #[i.material-icons directions_car]
+        span 8 h
+        span 24 m
 //
     div.city
       div.city__content

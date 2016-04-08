@@ -31,11 +31,17 @@
 
 .planner-cities
     display flex
+    padding 0 20px
+
 .roadtrip-city
     width 300px
     padding 0 20px
     margin-top 80px
     float left
+
+    &:last-child &__transition
+        display none
+
     &__content
         height 100%
         span(3/4)
@@ -92,10 +98,15 @@
         height 100%
         span(1/4)
         &__time
-          font-family font-brand
+          font-family font-special
           color white
           align()
-    &__activities
+          text-align center
+          font-size 18px
+          & > span
+              display block
+              i
+                  font-size 24px
     &__location
       font-family sans-serif
       font-size 10px
