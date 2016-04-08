@@ -8,11 +8,20 @@
     .color-0
         border-top 10px solid #C42E8F
 
+        &:hover
+            background rgba(#C42E8F, 1)
+
     .color-1
         border-top 10px solid #5AB433
 
+        &:hover
+            background rgba(#5AB433, 1)
+
     .color-2
         border-top 10px solid #2B6485
+
+        &:hover
+            background rgba(#2B6485, 1)
 
     &__date
         font-family font-brand
@@ -27,13 +36,11 @@
             background white
 
         &:hover
-            background brand
             cursor pointer
-            border-top 10px solid brand !important
 
             span.day
                 color white
-                font-size 32px
+                font-size 30px
 
             span.month
                 color darken(white, 10%)
