@@ -5,23 +5,31 @@
     flex-direction row
     width 100%
 
+    .color-0, .color-1, .color-2
+        &:hover
+            cursor pointer
+            span.day
+                color white
+            span.month
+                color darken(white, 10%)
+
     .color-0
-        border-top 10px solid #C42E8F
+        border-bottom 10px solid #C42E8F !important
 
         &:hover
-            background rgba(#C42E8F, 1)
+            background rgba(#C42E8F, 0.5)
 
     .color-1
-        border-top 10px solid #5AB433
+        border-bottom 10px solid #5AB433 !important
 
         &:hover
-            background rgba(#5AB433, 1)
+            background rgba(#5AB433, 0.5)
 
     .color-2
-        border-top 10px solid #2B6485
+        border-bottom 10px solid #2B6485 !important
 
         &:hover
-            background rgba(#2B6485, 1)
+            background rgba(#2B6485, 0.5)
 
     &__date
         font-family font-brand
@@ -30,20 +38,11 @@
         flex 1
         transition all 0.25s ease
         background rgba(white, 0.75)
-        border-top 10px solid darken(white, 10%)
+        border-bottom 10px solid darken(white, 20%)
 
         &:nth-child(even)
             background white
-
-        &:hover
-            cursor pointer
-
-            span.day
-                color white
-                font-size 30px
-
-            span.month
-                color darken(white, 10%)
+            border-bottom 10px solid darken(white, 10%)
 
         span.day
             color tomato

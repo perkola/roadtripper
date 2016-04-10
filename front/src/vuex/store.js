@@ -1,11 +1,12 @@
 import Vue  from 'vue'
 import Vuex from 'vuex'
+import m    from 'moment'
 
 Vue.use(Vuex)
 
 const state = {
-    startdate: null,
-    enddate: null,
+    startdate: m(),
+    enddate: m().day(16),
     cities: []
 }
 
