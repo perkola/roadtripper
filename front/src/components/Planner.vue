@@ -31,7 +31,7 @@ export default {
   name: 'Planner',
   data: function data() {
     return {
-      cities: [{name: "Stockholm", activities: []}],
+      cities: [],
       center: { lat: 10, lng: 11 },
       zoom: 5,
       mapType: 'terrain',
