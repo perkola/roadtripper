@@ -8,13 +8,12 @@ div.roadtrip-city
         span {{ city.count }} days
         button(@click="increment()") #[i.material-icons add]
     div.roadtrip-city__content__content
-      | Activities
-      div.roadtrip-city__activities(v-for="act in city.activities")
+      span.activities Activities
+      div.activity(v-for="act in city.activities", transition="modal")
         {{ act.name }}
-      br
       div.roadtrip-city__content__content__add-activity
           i.material-icons.roadtrip-city__content__content__add-activity__icon add
-          input(placeholder="Run", v-on:keyup.enter="addActivity", v-model="addAct").roadtrip-city__content__content__add-activity__input
+          input(placeholder="Visit a museum", v-on:keyup.enter="addActivity", v-model="addAct").roadtrip-city__content__content__add-activity__input
     //
       input(form="POST").roadtrip-city__add-activity
       i.material-icons favorite

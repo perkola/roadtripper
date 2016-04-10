@@ -12,7 +12,7 @@ div.planner
       button(v-on:click="addCity") Add city
 
   div.planner-cities
-      city(v-for="(index, city) in cities", :city="city", :class="index")
+      city(v-for="(index, city) in cities", :city="city", :class="index", transition="modal")
 
   Timeline
 
