@@ -6,12 +6,12 @@ extern crate rustc_serialize;
 extern crate hyper;
 extern crate dotenv;
 extern crate rand;
+extern crate unicase;
 
-use iron::status;
+use iron::{status, headers};
 use iron::prelude::*;
 use iron::error::HttpError;
-use staticfile::Static;
-use mount::Mount;
+use iron::method::Method::*;
 use std::path::Path;
 use std::io::prelude::*;
 use std::fs::File;
@@ -21,6 +21,8 @@ use hyper::Client;
 use dotenv::dotenv;
 use std::env;
 use rand::Rng;
+use router::Router;
+use unicase::UniCase;
 
 fn main() {
 
@@ -43,8 +45,8 @@ fn main() {
 
         /* TODO: HTTP post to map api */
         /* TODO: URL ENCODING */
-        let key = env::var("KEY").unwrap();
-        let url_query = format!("http://www.mapquestapi.com/directions/v2/route?from={}&to={}&key={}", from, to, key);
+        let key = env::var("GOOGLE_KEY").unwrap();
+        let url_query = format!("https://maps.googleapis.com/maps/api/distancematrix/json?origins={}&destinations={}&key={}", from, to, key);
 
         println!("ENCODED: {}", url_query);
 
@@ -55,7 +57,8 @@ fn main() {
         println!("{}", s);
 
         let payload = json::encode(&s).unwrap();
-        Ok(Response::with(((status::Ok), payload)))
+        let resp = Response::with(((status::Ok), payload));
+        Ok(resp)
     }
 
     fn save_roadtrip(res: &mut Request) -> IronResult<Response> {
@@ -105,12 +108,27 @@ fn main() {
         Ok(Response::with(((status::Ok), s)))
     }
 
-    let mut mount = Mount::new();
-    mount
-        .mount("/index.html", Static::new(Path::new("../public/index.html")))
-        .mount("/api/citydistance", dist_cities)
-        .mount("/api/roadtrip/save", save_roadtrip)
-        .mount("/roadtrip", get_roadtrip);
+    let mut router = Router::new();
+    router.get("/api/citydistance", dist_cities);
+    router.post("/api/roadtrip/save", save_roadtrip);
+    router.get("/roadtrip", get_roadtrip);
+
+    let mut chain = Chain::new(router);
+    chain.link_after(CorsFilter);
     println!("Listening on port 8000");
-    Iron::new(mount).http("localhost:8000").unwrap();
+    Iron::new(chain).http("localhost:8000").unwrap();
+}
+
+struct CorsFilter;
+
+impl iron::AfterMiddleware for CorsFilter {
+    fn after(&self, _: &mut Request, mut res: Response) -> IronResult<Response> {
+        res.headers.set(headers::AccessControlAllowOrigin::Value("http://localhost:8080"));
+        res.headers.set(headers::AccessControlAllowHeaders(
+                vec![UniCase("accept".to_string()),
+                UniCase("content-type".to_string())]));
+        res.headers.set(headers::AccessControlAllowMethods(
+                vec![Get]));
+        Ok(res)
+    }
 }
