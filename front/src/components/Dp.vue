@@ -1,6 +1,6 @@
 <template lang="jade">
 div.datepicker
-    div.datepicker__title(@click="show = !show") {{ display }}
+    //div.datepicker__title(@click="show = !show") {{ display }}
     div.datepicker__selected(@click="show = !show")
         {{ selected.format('MMMM, D - YYYY') }}
         #[i.material-icons date_range]
@@ -35,6 +35,11 @@ import { setDate } from '../vuex/actions'
 
 export default {
 
+    vuex: {
+        getters: {
+            dates: state => state.dates,
+        }
+    },
     props: {
         start: {
             type: String,
@@ -45,7 +50,7 @@ export default {
             default: 'YYYY-MM-DD'
         },
         selected: {
-            default: m()
+            //default: m()
         },
         name: {
             type: String,
@@ -58,10 +63,9 @@ export default {
     data () {
         return {
             show: false,
-            //selected: m()
+            selected: this.dates[this.name]
         }
     },
-
     computed: {
         currentMonth () {
             return this.date().format('MMMM, YYYY')
@@ -104,7 +108,7 @@ export default {
             this.$set('start', moment)
             this.$set('show', false)
             document.activeElement.blur()
-            console.log(moment)
+            console.log("tja", moment)
             setDate(this.$store, this.name, moment)
         },
         isToday (moment) {
@@ -115,9 +119,6 @@ export default {
         },
         isSelected (moment) {
             return moment.isSame( this.selected, 'day' )
-        },
-        blur () {
-            console.log(arguments, blur);
         }
     }
 }

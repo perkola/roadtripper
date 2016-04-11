@@ -15,15 +15,16 @@ import DateRange   from 'moment-range'
 export default {
     vuex: {
         getters: {
-            startdate: state => state.startdate,
+            startdate: state => state.dates.startdate,
             enddate: state => state.enddate,
-            cities: state => state.cities
+            cities: state => state.cities,
+            duration: state => state.duration
         }
     },
     computed: {
         timelineDays() {
             var start = m(this.startdate, "YYYY-MM-DD")
-            var end = m(this.enddate, "YYYY-MM-DD")
+            var end = m(this.startdate).day(this.duration)
             var range = m.range(start, end)
             console.log(range)
             var days  = []

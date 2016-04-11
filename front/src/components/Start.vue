@@ -1,16 +1,11 @@
 <template lang="jade">
-div.bg-img
 div.intro
-    div.intro__content
-        h1.intro__title Roadtripper
-        div.intro__pick
-            div
-                div.date-from
-                    dp(name="startdate", display="Start date")
-                div.date-to
-                    dp(name="enddate", display="End date")
-            p.intro__go
-                a(v-link="{ path: 'plan' }").go-btn Create roadtrip
+    h1.intro__title Roadtripper
+    div.col-75
+        dp(name="startdate", display="Start date")
+    dov.col-25
+        a.intro__go(v-link="{ path: 'plan' }").go-btn #[span GO] #[i.material-icons keyboard_arrow_right]
+
 div.footer
     p Copyright #[i.material-icons copyright] 2016
 </template>
