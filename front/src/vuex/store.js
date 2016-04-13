@@ -9,7 +9,7 @@ const state = {
         'startdate': m()
     },
     startdate: m(),
-    duration: 10,
+    duration: -1,
     enddate: m().day(16),
     cities: []
 }
@@ -23,6 +23,12 @@ const mutations = {
     },
     ADD_CITY(state, city) {
         state.cities.push(city)
+    },
+    INCREMENT_DURATION(state) {
+        state.duration++
+    },
+    DECREMENT_DURATION(state) {
+        state.duration--
     }
 }
 
