@@ -25,8 +25,7 @@ export default {
         timelineDays() {
             var start = m(this.startdate, "YYYY-MM-DD")
             console.log("+", start)
-            var end = m(this.startdate, "YYYY-MM-DD").day(this.duration, 'days')
-            var end = m(this.startdate, "YYYY-MM-DD").add(this.duration, 'days')
+            var end = m(this.startdate, "YYYY-MM-DD").add(20, 'days')
             console.log("++", end)
             var range = m.range(start, end)
             console.log(range)

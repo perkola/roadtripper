@@ -8,7 +8,7 @@
 div.planner
   div.planner__add-city
     div.planner__add-city__input
-      input(form="POST", placeholder="San Francisco", v-model="city")
+      input(form="POST", placeholder="San Francisco", v-model="city", @keyup.enter="addCity")
       button(v-on:click="addCity") Add city
 
   div.planner-cities
