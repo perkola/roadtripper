@@ -9,3 +9,11 @@ export const setDate = ({ dispatch }, name, moment) => {
 export const addCity = ({ dispatch }, city) => {
     dispatch("ADD_CITY", city)
 }
+
+export const incrementDuration = ({ dispatch }) => {
+    dispatch("INCREMENT_DURATION")
+}
+
+export const decrementDuration = ({ dispatch }) => {
+    dispatch("DECREMENT_DURATION")
+}

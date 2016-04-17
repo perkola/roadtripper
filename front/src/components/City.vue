@@ -39,6 +39,8 @@ div.roadtrip-city
 </template>
 
 <script>
+import { incrementDuration, decrementDuration } from '../vuex/actions'
+
 export default {
     props: {
         city: {
@@ -59,15 +61,18 @@ export default {
             count: 1
         }
     },
+    ready() {
+        incrementDuration(this.$store)
+    },
     methods: {
         increment() {
             this.city.count++
+            incrementDuration(this.$store)
         },
         decrement() {
             if (this.city.count > 1) {
                 this.city.count--
-            } else {
-                this.remove()
+                decrementDuration(this.$store)
             }
         },
         addActivity() {
