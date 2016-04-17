@@ -1,6 +1,6 @@
 <template lang="jade">
 div.roadtrip-city
-  div.roadtrip-city__content(:class="yolo", v-on:click="getCityDistance")
+  div.roadtrip-city__content(:class="yolo")
     div.roadtrip-city__content__title
       span {{ city.name }}
       div
@@ -21,8 +21,7 @@ div.roadtrip-city
     //i.material-icons.roadtrip-city__transition__icon arrow forward
     span.roadtrip-city__transition__time
         span #[i.material-icons directions_car]
-        span 8 h
-        span 24 m
+        {{ city.transitionTime }}
 //
     div.city
       div.city__content
@@ -65,8 +64,10 @@ export default {
             this.city.count++
         },
         decrement() {
-            if (this.city.count > 0) {
+            if (this.city.count > 1) {
                 this.city.count--
+            } else {
+                this.remove()
             }
         },
         addActivity() {

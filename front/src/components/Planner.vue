@@ -44,52 +44,31 @@ export default {
     },
     addCity: function() {
       console.log(this.cities)
-      var city = { name: this.city, activities: [], count: 1 }
+      var city = { name: this.city, activities: [], count: 1, transitionTime: '-', nextCity: '' }
       this.cities.push(city)
+      if (this.cities.length > 1) {
+          var prevCity = this.cities[this.cities.length - 2];
+          prevCity['nextCity'] = city;
+          var res = this.getCityDistance(prevCity['name'], city['name']);
+          res.then(function(value) {
+             prevCity['transitionTime'] =value['rows'][0]['elements'][0]['duration']['text'];
+             console.log(prevCity);
+          }, function(value) {
+              console.log("Failed to get city distance");
+          });
+      }
       this.city = null
       addCity(this.$store, city)
     },
-    getCityDistance: function() {
-      makeCorsRequest()
-      function createCORSRequest(method, url) {
-        var xhr = new XMLHttpRequest();
-        if ("withCredentials" in xhr) {
-          // XHR for Chrome/Firefox/Opera/Safari.
-          xhr.open(method, url, true);
-        } else if (typeof XDomainRequest != "undefined") {
-          // XDomainRequest for IE.
-          xhr = new XDomainRequest();
-          xhr.open(method, url);
-        } else {
-          // CORS not supported.
-          xhr = null;
-        }
-        return xhr;
-      }
-
-      function makeCorsRequest() {
-        // All HTML5 Rocks properties support CORS.
-        var url = 'http://localhost:8000/api/citydistance?from=dallas&to=san%20francisco';
-
-        var xhr = createCORSRequest('GET', url);
-        if (!xhr) {
-          alert('CORS not supported');
-          return;
-        }
-
-        // Response handlers.
-        xhr.onload = function() {
-          var text = xhr.responseText;
-          alert('Response from CORS request to ' + url);
-        };
-
-        xhr.onerror = function() {
-          alert('Woops, there was an error making the request.');
-        };
-
-        xhr.send();
-      }
-
+    getCityDistance: function(from, to) {
+        console.log(encodeURI(from));
+        return this.$http.get('http://localhost:8080/api/citydistance?'
+          + 'from=' + encodeURI(from)
+          + '&to=' + encodeURI(to),
+          function(data, status, request) {
+              return data;
+          }
+        );
     }
   },
   components: {
