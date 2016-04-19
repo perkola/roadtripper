@@ -32,6 +32,38 @@ app.get("/api/citydistance", function(req, res) {
     });
 });
 
+app.post("/api/save", function(req, res) {
+    var token = tokenGen(10);
+
+    var fs = require('fs');
+    if (!(fs.existsSync('../roadtrips'))) {
+        fs.mkdir('../roadtrips');
+    }
+
+    req.on('data', function(chunk) {
+        fs.writeFile('../roadtrips/' + token + '.rdt', chunk.toString(), function(err) {
+            if (err) {
+                res.send("ERROR");
+                return;
+            }
+            console.log("Wrote to file");
+        });
+    });
+
+    res.send(token);
+});
+
+function tokenGen(n) {
+    var text = "";
+
+    var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    for (var i = 0; i < n; i++) {
+        text += charset.charAt(Math.floor(Math.random() * charset.length));
+    }
+
+    return text;
+}
+
 var port = 8080; //The port on which your server listens
 app.use(express.static('../front/'));
 console.log("Listening on port " + port + "...");
