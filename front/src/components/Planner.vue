@@ -60,8 +60,26 @@ export default {
       this.city = null
       addCity(this.$store, city)
     },
+    /* this will update all transition times in the roadtrip */
+    updateCityTransitions() {
+        if (this.cities.length > 1) {
+            for (var i = 0; i < this.cities.length - 1; i++) {
+                var thisCity = this.cities[i];
+                var nextCity = this.cities[i+1];
+
+                thisCity['nextCity'] = nextCity;
+                var res = this.getCityDistance(thisCity['name'], nextCity['name']);
+                res.then(function(value) {
+                    thisCity['transitionTime']
+                        = value['rows'][0]['elements'][0]['duration']['text'];
+                }, function (value) {
+                    console.log("Failed to get city distance between ",
+                        thisCity['name'], " and ", nextCity['name']);
+                });
+            }
+        }
+    },
     getCityDistance: function(from, to) {
-        console.log(encodeURI(from));
         return this.$http.get('http://localhost:8080/api/citydistance?'
           + 'from=' + encodeURI(from)
           + '&to=' + encodeURI(to),
