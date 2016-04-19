@@ -67,6 +67,7 @@ export default {
     methods: {
         increment() {
             this.city.count++
+            console.log(this.$store.state)
             incrementDuration(this.$store)
         },
         decrement() {

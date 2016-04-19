@@ -5,11 +5,14 @@
       :zoom.sync="zoom",
       :map-type-id.sync="mapType"
   )
+div.navbar
+    h1.navbar__logo #[a(v-link="{ path: '/' }") Roadtripper]
+    div.navbar__city-search(:class="{ 'test': yo }")
+        input(type="text", placeholder="San Francisco", v-model="city", @keyup.enter="addCity")
+        button(@click="addCity") #[i.material-icons add] Add city
+    a.navbar__button Save roadtrip #[i.material-icons exit_to_app]
+
 div.planner
-  div.planner__add-city
-    div.planner__add-city__input
-      input(form="POST", placeholder="San Francisco", v-model="city", @keyup.enter="addCity")
-      button(v-on:click="addCity") Add city
 
   div.planner-cities
       city(v-for="(index, city) in cities", :city="city", :class="index", transition="modal")
@@ -37,6 +40,12 @@ export default {
       mapType: 'terrain',
       city: null
     }
+  },
+  computed: {
+      yo() {
+          console.log(this.cities.length)
+          return !this.city && this.cities.length < 1
+      }
   },
   methods: {
     showCity: function(e) {
