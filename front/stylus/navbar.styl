@@ -1,0 +1,71 @@
+.navbar
+    background white
+    height 50px
+    width 100%
+
+    &__logo
+        display inline-block
+        font-family font-special
+        font-size 28px
+        height 50px
+        line-height 50px
+        margin 0
+        padding 0 10px
+        text-transform uppercase
+
+        a
+            color lighten(black, 20%)
+            text-decoration none
+
+    &__city-search
+        display inline
+        transition all 0.5s ease
+        position absolute
+        align(horizontal)
+        top 0
+
+        &.test
+            //align()
+            top 300px
+
+        input[type="text"]
+            height 50px
+            line-height 50px
+            border none
+            font-size 16px
+            padding 0 15px
+            margin 0
+            width 250px
+            outline none
+
+        button
+            background brand
+            border none
+            color white
+            height 50px
+            padding 0
+            margin 0
+            font-size 16px
+            line-height 50px
+            padding 0 15px
+
+            i
+                vertical-align middle
+                position relative
+                bottom 2px
+
+    &__button
+        cursor pointer
+        float right
+        height 50px
+        line-height 50px
+        font-size 16px
+        padding 0 20px
+        background info
+        color white
+
+        i
+            vertical-align middle
+            font-size 18px
+            position relative
+            bottom 2px
