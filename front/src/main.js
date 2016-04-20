@@ -20,6 +20,11 @@ router.map({
     '/city': {
         component: require('./components/City.vue')
     },
+    '/roadtrip': {
+        component: {
+            tmplate: '405 - lel' //TODO FIX ME PRKL
+        }
+    },
     '*': {
         component: {
             template: '404 - Not found'
