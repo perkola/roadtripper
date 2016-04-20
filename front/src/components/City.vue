@@ -1,12 +1,13 @@
 <template lang="jade">
 div.roadtrip-city
   div.roadtrip-city__content(:class="yolo")
+    a.roadtrip-city__content__close(@click="show = false") #[i.material-icons close]
     div.roadtrip-city__content__title
       span {{ city.name }}
       div
-        button(@click="decrement()") #[i.material-icons remove]
+        a.decrement(@click="decrement()") #[i.material-icons remove]
         span {{ city.count }} days
-        button(@click="increment()") #[i.material-icons add]
+        a.increment(@click="increment()") #[i.material-icons add]
     div.roadtrip-city__content__content
       span.activities Activities
       div.activity(v-for="act in city.activities", transition="modal")
