@@ -8,6 +8,7 @@
 div.navbar
     h1.navbar__logo #[a(v-link="{ path: '/' }") Roadtripper]
     div.navbar__city-search(:class="{ 'test': yo }")
+        span(v-show="yo", transition="expand") Type the name of a city...
         input(type="text", placeholder="San Francisco", v-model="city", @keyup.enter="addCity")
         button(@click="addCity") #[i.material-icons add] Add city
     a.navbar__button Save roadtrip #[i.material-icons exit_to_app]

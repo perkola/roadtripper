@@ -26,7 +26,15 @@
 
         &.test
             //align()
-            top 300px
+            top 40%
+
+        span
+            display block
+            color white
+            font-family font-brand
+            font-size 18px
+            width 100%
+            text-align center
 
         input[type="text"]
             height 50px
@@ -69,3 +77,16 @@
             font-size 18px
             position relative
             bottom 2px
+
+.expand-transition {
+    position absolute
+    bottom 60px
+    opacity 1
+    transition all 0.25s ease
+}
+
+/* .expand-enter defines the starting state for entering */
+/* .expand-leave defines the ending state for leaving */
+.expand-enter, .expand-leave {
+    opacity 0
+}
