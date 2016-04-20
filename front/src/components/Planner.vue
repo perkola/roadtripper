@@ -11,7 +11,7 @@ div.navbar
         span(v-show="yo", transition="expand") Type the name of a city...
         input(type="text", placeholder="San Francisco", v-model="city", @keyup.enter="addCity")
         button(@click="addCity") #[i.material-icons add] Add city
-    a.navbar__button Save roadtrip #[i.material-icons exit_to_app]
+    a.navbar__button(v-if="cities.length", transition="modal") Save roadtrip #[i.material-icons exit_to_app]
 
 div.planner
 

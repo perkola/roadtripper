@@ -59,14 +59,13 @@
         span(3/4)
         background white
         transition all 0.25s ease
-        &.color-0 &__title
-            background #C42E8F
-        &.color-1 &__title
-            background #5AB433
-        &.color-2 &__title
-            background #2B6485
-        &.color-3 &__title
-            background #B8A120
+
+        length = length(colors) - 1
+
+        for num in (0..length)
+            &.color-{num} &__title
+                background colors[num]
+
         &__title
             font-family font-special
             color white

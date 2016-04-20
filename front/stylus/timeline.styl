@@ -4,7 +4,8 @@
     display flex
     flex-direction row
     width 100%
-    overflow hidden
+    overflow scroll
+
 
     .color-0, .color-1, .color-2
         &:hover
@@ -18,25 +19,25 @@
         border-bottom 10px solid #C42E8F !important
 
         &:hover
-            background rgba(#C42E8F, 0.5)
+            background rgba(#C42E8F, 1)
 
     .color-1
         border-bottom 10px solid #5AB433 !important
 
         &:hover
-            background rgba(#5AB433, 0.5)
+            background rgba(#5AB433, 1)
 
     .color-2
         border-bottom 10px solid #2B6485 !important
 
         &:hover
-            background rgba(#2B6485, 0.5)
+            background rgba(#2B6485, 1)
 
     .color-3
         border-bottom 10px solid #B8A120 !important
 
         &:hover
-            background rgba(#B8A120, 0.5)
+            background rgba(#B8A120, 1)
 
     &__date
         font-family font-brand
@@ -46,6 +47,7 @@
         transition all 0.25s ease
         background rgba(white, 0.75)
         border-bottom 10px solid darken(white, 20%)
+        min-width 40px
 
         &:nth-child(even)
             background white
@@ -65,3 +67,9 @@
             display block
             text-transform uppercase
             line-height 14px
+
+    length = length(colors) - 1
+
+    for num in (0..length)
+        &__date&__date--color-{num}
+            border-bottom 10px solid colors[num]

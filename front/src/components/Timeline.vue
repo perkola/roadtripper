@@ -25,7 +25,7 @@ export default {
         timelineDays() {
             var start = m(this.startdate, "YYYY-MM-DD")
             console.log("+", start)
-            var end = m(this.startdate, "YYYY-MM-DD").add(20, 'days')
+            var end = m(this.startdate, "YYYY-MM-DD").add(18, 'days')
             console.log("++", end)
             var range = m.range(start, end)
             console.log(range)
@@ -41,7 +41,7 @@ export default {
             var colors = []
             for (var i = 0; i < this.cities.length; i++) {
                 for (var j = 0; j < this.cities[i].count; j++) {
-                    colors.push('color-' + i)
+                    colors.push('timeline__date--color-' + i)
                 }
             }
             return colors
