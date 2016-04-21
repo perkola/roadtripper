@@ -71,7 +71,7 @@ export default {
                 addCity(self.$store, city)
             })
             setDate(this.$store, "startdate", yo.startdate)
-            //setDuration(this.$store, yo.date.duration)
+            setDuration(this.$store, yo.duration)
         })
         /*
         response.data            response.data.cities.forEach(function(city) {
@@ -93,7 +93,9 @@ export default {
         var autocomplete = this.$http.get('http://localhost:8080/api/autocomplete?input=' + this.city);
     },
     addNewCity: function() {
-      console.log(this.cities)
+      if (! this.city) {
+          return
+      }
       var city = { name: this.city, activities: [], count: 1, transitionTime: '-', nextCity: '' }
       this.cities.push(city)
       if (this.cities.length > 1) {
