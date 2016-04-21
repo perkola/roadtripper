@@ -9,8 +9,8 @@ div.navbar
     h1.navbar__logo #[a(v-link="{ path: '/' }") Roadtripper]
     div.navbar__city-search(:class="{ 'test': yo }")
         span(v-show="yo", transition="expand") Type the name of a city...
-        input(type="text", placeholder="San Francisco", v-model="city", @keyup.enter="addCity")
-        button(@click="addCity") #[i.material-icons add] Add city
+        input(type="text", placeholder="San Francisco", v-model="city", @keyup.enter="addNewCity")
+        button(@click="addNewCity") #[i.material-icons add] Add city
     a.navbar__button(v-if="cities.length", transition="modal", @click="saveRoadtrip()") Save roadtrip #[i.material-icons exit_to_app]
 
 div.planner
@@ -47,11 +47,19 @@ export default {
           startdate: state => state.dates.startdate,
           cities: state => state.cities,
           duration: state => state.duration
+      },
+      actions: {
+          addCity
       }
+  },
+  ready() {
+    var id = this.$route.params.id
+    if (id) {
+        console.log(id)
+    }
   },
   computed: {
       yo() {
-          console.log(this.cities.length)
           return !this.city && this.cities.length < 1
       }
   },
@@ -59,8 +67,7 @@ export default {
     showCity: function(e) {
       console.log(e)
     },
-    addCity: function() {
-      console.log(this.cities)
+    addNewCity: function() {
       var city = { name: this.city, activities: [], count: 1, transitionTime: '-', nextCity: '' }
       this.cities.push(city)
       if (this.cities.length > 1) {
@@ -68,8 +75,7 @@ export default {
           prevCity['nextCity'] = city;
           var res = this.getCityDistance(prevCity['name'], city['name']);
           res.then(function(value) {
-             prevCity['transitionTime'] =value['rows'][0]['elements'][0]['duration']['text'];
-             console.log(prevCity);
+             prevCity['transitionTime'] = value['rows'][0]['elements'][0]['duration']['text'];
           }, function(value) {
               console.log("Failed to get city distance");
           });

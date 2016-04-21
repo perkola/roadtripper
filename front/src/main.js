@@ -20,10 +20,8 @@ router.map({
     '/city': {
         component: require('./components/City.vue')
     },
-    '/roadtrip': {
-        component: {
-            tmplate: '405 - lel' //TODO FIX ME PRKL
-        }
+    '/plan/:id': {
+        component: require('./components/Planner.vue')
     },
     '*': {
         component: {
