@@ -42,6 +42,13 @@ export default {
       city: null
     }
   },
+  vuex: {
+      getters: {
+          startdate: state => state.dates.startdate,
+          cities: state => state.cities,
+          duration: state => state.duration
+      }
+  },
   computed: {
       yo() {
           console.log(this.cities.length)
@@ -100,11 +107,15 @@ export default {
     },
     saveRoadtrip: function() {
         console.log("Saving roadtrip");
-        var data = {cities: []};
+        var data = {cities: [], date: []};
         this.cities.forEach(function (c, i) {
-            console.log(c);
             data['cities'].push(c);
         });
+
+        data['date'].push(this.startdate);
+        data['date'].push(this.duration);
+
+        console.log(data);
 
         this.$http.post('http://localhost:8080/api/save', data).then(
             function (data) {
