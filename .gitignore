@@ -6,3 +6,4 @@ server/target/*
 .env
 roadtrips/*.rdt
 *.go
+*.rs
