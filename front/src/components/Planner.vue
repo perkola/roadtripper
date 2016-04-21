@@ -104,26 +104,30 @@ export default {
         });
     },
     addNewCity: function() {
-      if (! this.city) {
-          return
-      }
-      var city = { name: this.city, activities: [], count: 1, transitionTime: '-', nextCity: '' }
-      this.cities.push(city)
-      if (this.cities.length > 1) {
-          var prevCity = this.cities[this.cities.length - 2];
-          prevCity['nextCity'] = city;
-          var res = this.getCityDistance(prevCity['name'], city['name']);
-          res.then(function(value) {
-             prevCity['transitionTimeRaw'] = value['rows'][0]['elements'][0]['duration']['value'];
-             var duration = moment.duration(prevCity['transitionTimeRaw'], 'seconds');
-             prevCity['transitionTime'] = duration.humanize();
-             console.log(duration.humanize());
-          }, function(value) {
-              console.log("Failed to get city distance");
-          });
-      }
-      this.city = null
-      addCity(this.$store, city)
+        var transitionTimeRaw = 13500;
+        var duration = m.duration(transitionTimeRaw, 'seconds');
+        console.log(duration.humanize());
+        return;
+        if (! this.city) {
+            return
+        }
+        var city = { name: this.city, activities: [], count: 1, transitionTime: '-', nextCity: '' }
+        this.cities.push(city)
+        if (this.cities.length > 1) {
+            var prevCity = this.cities[this.cities.length - 2];
+            prevCity['nextCity'] = city;
+            var res = this.getCityDistance(prevCity['name'], city['name']);
+            res.then(function(value) {
+                prevCity['transitionTimeRaw'] = value['rows'][0]['elements'][0]['duration']['value'];
+                var duration = moment.duration(prevCity['transitionTimeRaw'], 'seconds');
+                prevCity['transitionTime'] = duration.humanize();
+                console.log(duration.humanize());
+            }, function(value) {
+                console.log("Failed to get city distance");
+            });
+        }
+        this.city = null
+        addCity(this.$store, city)
     },
     /* this will update all transition times in the roadtrip */
     updateCityTransitions() {
