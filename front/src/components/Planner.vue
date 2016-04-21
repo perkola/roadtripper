@@ -9,7 +9,8 @@ div.navbar
     h1.navbar__logo #[a(v-link="{ path: '/' }") Roadtripper]
     div.navbar__city-search(:class="{ 'test': yo }")
         span(v-show="yo", transition="expand") Type the name of a city...
-        input(type="text", placeholder="San Francisco", v-model="city", @keyup.enter="addNewCity")
+        input(type="text", placeholder="San Francisco", v-model="city", @keyup.enter="addNewCity" @keyup="autocomplete")
+        span {{ predictions | json }}
         button(@click="addNewCity") #[i.material-icons add] Add city
     a.navbar__button(v-if="cities.length", transition="modal", @click="saveRoadtrip()") Save roadtrip #[i.material-icons exit_to_app]
 
@@ -36,6 +37,7 @@ export default {
   data: function data() {
     return {
       cities: [],
+      predictions: [],
       center: { lat: 10, lng: 11 },
       zoom: 5,
       mapType: 'terrain',
@@ -90,7 +92,13 @@ export default {
       console.log(e)
     },
     autocomplete: function(e) {
-        var autocomplete = this.$http.get('http://localhost:8080/api/autocomplete?input=' + this.city);
+        var autocomplete = this.$http.get('http://localhost:8080/api/autocomplete?input=' + encodeURI(this.city));
+        var self = this;
+        autocomplete.then(function(data) {
+            //console.log(data['data']['predictions']);
+            self.predictions = data['data']['predictions'];
+            console.log(self.predictions[0]['description']);
+        });
     },
     addNewCity: function() {
       if (! this.city) {
