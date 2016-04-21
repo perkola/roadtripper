@@ -112,8 +112,8 @@ export default {
             data['cities'].push(c);
         });
 
-        data['date'].push(this.startdate);
-        data['date'].push(this.duration);
+        data['date'].push({'startDate' : this.startdate});
+        data['date'].push({'duration' : this.duration});
 
         console.log(data);
 
