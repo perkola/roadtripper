@@ -67,15 +67,11 @@ export default {
     showCity: function(e) {
       console.log(e)
     },
-<<<<<<< HEAD
-    addNewCity: function() {
-=======
     autocomplete: function(e) {
         var autocomplete = this.$http.get('http://localhost:8080/api/autocomplete?input=' + this.city);
     },
-    addCity: function() {
+    addNewCity: function() {
       console.log(this.cities)
->>>>>>> 6281632a7c817f7c5c23dfd66c801db9fb3db5ec
       var city = { name: this.city, activities: [], count: 1, transitionTime: '-', nextCity: '' }
       this.cities.push(city)
       if (this.cities.length > 1) {
