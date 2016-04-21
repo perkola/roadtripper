@@ -9,7 +9,7 @@ div.navbar
     h1.navbar__logo #[a(v-link="{ path: '/' }") Roadtripper]
     div.navbar__city-search(:class="{ 'test': yo }")
         span(v-show="yo", transition="expand") Type the name of a city...
-        input(type="text", placeholder="San Francisco", v-model="city", @keyup.enter="addCity")
+        input(type="text", placeholder="San Francisco", v-model="city", @keyup.enter="addCity" @keyup="autocomplete")
         button(@click="addCity") #[i.material-icons add] Add city
     a.navbar__button(v-if="cities.length", transition="modal", @click="saveRoadtrip()") Save roadtrip #[i.material-icons exit_to_app]
 
@@ -58,6 +58,9 @@ export default {
   methods: {
     showCity: function(e) {
       console.log(e)
+    },
+    autocomplete: function(e) {
+        var autocomplete = this.$http.get('http://localhost:8080/api/autocomplete?input=' + this.city);
     },
     addCity: function() {
       console.log(this.cities)
