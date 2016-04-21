@@ -5,4 +5,4 @@ public/js
 server/target/*
 .env
 *.go
-*.rs
+*.log
