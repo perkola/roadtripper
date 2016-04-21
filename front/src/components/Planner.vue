@@ -9,9 +9,9 @@ div.navbar
     h1.navbar__logo #[a(v-link="{ path: '/' }") Roadtripper]
     div.navbar__city-search(:class="{ 'test': yo }")
         span(v-show="yo", transition="expand") Type the name of a city...
-        input(type="text", placeholder="San Francisco", v-model="city", @keyup.enter="addCity" @keyup="autocomplete")
+        input(type="text", placeholder="San Francisco", v-model="city", @keyup.enter="addNewCity" @keyup="autocomplete")
         span {{ predictions | json }}
-        button(@click="addCity") #[i.material-icons add] Add city
+        button(@click="addNewCity") #[i.material-icons add] Add city
     a.navbar__button(v-if="cities.length", transition="modal", @click="saveRoadtrip()") Save roadtrip #[i.material-icons exit_to_app]
 
 div.planner
@@ -28,7 +28,8 @@ div.planner
 //import {load, Map } from 'vue-google-maps'
 import Timeline from './Timeline.vue'
 import City from './City.vue'
-import { addCity } from '../vuex/actions'
+import { addCity, setDuration, setDate } from '../vuex/actions'
+import m from 'moment'
 
 //load('AIzaSyDB69x_sL1X3tawNIFdht4prhEW9bymssc', '3.23', ['places']);
 
@@ -49,11 +50,41 @@ export default {
           startdate: state => state.dates.startdate,
           cities: state => state.cities,
           duration: state => state.duration
+      },
+      actions: {
+          addCity,
+          setDate,
+          setDuration
       }
+  },
+  ready() {
+    var idx = this.$route.params.id
+    if (idx) {
+        var self = this
+        var data = this.$http({ url: '/api/roadtrip', method: 'GET', params: { token: idx }}).then(function (response) {
+            return response.data
+        }, function(response) {
+            return null
+        })
+        data.then(function(yo) {
+            var self = this
+            yo.cities.forEach(function(city) {
+                console.log(city)
+                self.cities.push(city)
+                addCity(self.$store, city)
+            })
+            setDate(this.$store, "startdate", yo.startdate)
+            setDuration(this.$store, yo.duration)
+        })
+        /*
+        response.data            response.data.cities.forEach(function(city) {
+                        addCity(self.$store, city)
+                    })
+        */
+    }
   },
   computed: {
       yo() {
-          console.log(this.cities.length)
           return !this.city && this.cities.length < 1
       }
   },
@@ -65,13 +96,17 @@ export default {
         var autocomplete = this.$http.get('http://localhost:8080/api/autocomplete?input=' + encodeURI(this.city));
         var self = this;
         autocomplete.then(function(data) {
-            //console.log(data['data']['predictions']);
-            self.predictions = data['data']['predictions'];
-            console.log(self.predictions[0]['description']);
+            if (data['data']['predictions']) {
+                //console.log(data['data']['predictions']);
+                self.predictions = data['data']['predictions'];
+                console.log(self.predictions[0]['description']);
+            }
         });
     },
-    addCity: function() {
-      console.log(this.cities)
+    addNewCity: function() {
+      if (! this.city) {
+          return
+      }
       var city = { name: this.city, activities: [], count: 1, transitionTime: '-', nextCity: '' }
       this.cities.push(city)
       if (this.cities.length > 1) {
@@ -79,8 +114,10 @@ export default {
           prevCity['nextCity'] = city;
           var res = this.getCityDistance(prevCity['name'], city['name']);
           res.then(function(value) {
-             prevCity['transitionTime'] =value['rows'][0]['elements'][0]['duration']['text'];
-             console.log(prevCity);
+             prevCity['transitionTimeRaw'] = value['rows'][0]['elements'][0]['duration']['value'];
+             var duration = moment.duration(prevCity['transitionTimeRaw'], 'seconds');
+             prevCity['transitionTime'] = duration.humanize();
+             console.log(duration.humanize());
           }, function(value) {
               console.log("Failed to get city distance");
           });
@@ -123,8 +160,8 @@ export default {
             data['cities'].push(c);
         });
 
-        data['date'].push({'startDate' : this.startdate});
-        data['date'].push({'duration' : this.duration});
+        data['startdate'] = this.startdate
+        data['duration'] = this.duration
 
         console.log(data);
 
