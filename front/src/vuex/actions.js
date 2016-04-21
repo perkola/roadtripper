@@ -17,3 +17,7 @@ export const incrementDuration = ({ dispatch }) => {
 export const decrementDuration = ({ dispatch }) => {
     dispatch("DECREMENT_DURATION")
 }
+
+export const setDuration = ({ dispatch }, duration) => {
+    dispatch("SET_DURATION", duration)
+}

@@ -27,7 +27,7 @@ div.planner
 //import {load, Map } from 'vue-google-maps'
 import Timeline from './Timeline.vue'
 import City from './City.vue'
-import { addCity } from '../vuex/actions'
+import { addCity, setDuration, setDate } from '../vuex/actions'
 
 //load('AIzaSyDB69x_sL1X3tawNIFdht4prhEW9bymssc', '3.23', ['places']);
 
@@ -49,13 +49,35 @@ export default {
           duration: state => state.duration
       },
       actions: {
-          addCity
+          addCity,
+          setDate,
+          setDuration
       }
   },
   ready() {
-    var id = this.$route.params.id
-    if (id) {
-        console.log(id)
+    var idx = this.$route.params.id
+    if (idx) {
+        var self = this
+        var data = this.$http({ url: '/api/roadtrip', method: 'GET', params: { token: idx }}).then(function (response) {
+            return response.data
+        }, function(response) {
+            return null
+        })
+        data.then(function(yo) {
+            var self = this
+            yo.cities.forEach(function(city) {
+                console.log(city)
+                self.cities.push(city)
+                addCity(self.$store, city)
+            })
+            setDate(this.$store, "startdate", yo.startdate)
+            //setDuration(this.$store, yo.date.duration)
+        })
+        /*
+        response.data            response.data.cities.forEach(function(city) {
+                        addCity(self.$store, city)
+                    })
+        */
     }
   },
   computed: {
@@ -122,8 +144,8 @@ export default {
             data['cities'].push(c);
         });
 
-        data['date'].push({'startDate' : this.startdate});
-        data['date'].push({'duration' : this.duration});
+        data['startdate'] = this.startdate
+        data['duration'] = this.duration
 
         console.log(data);
 
