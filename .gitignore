@@ -4,5 +4,4 @@ public/js
 *.key
 server/target/*
 .env
-roadtrips/*.rdt
 *.go
