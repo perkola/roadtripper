@@ -32,6 +32,50 @@ app.get("/api/citydistance", function(req, res) {
     });
 });
 
+app.get("/api/roadtrip", function(req, res) {
+    var url_parts = url.parse(req.url, true);
+    var query = url_parts.query;
+    var token = query['token'];
+
+    var fs = require('fs');
+    if (!(fs.existsSync('../roadtrips/' + token + '.rdt'))) {
+        return res.status(500).send('No such roadtrip');
+    }
+
+    var content;
+    fs.readFile('../roadtrips/' + token + '.rdt', function read(err, data) {
+        if (err) {
+            throw err;
+        }
+        content = data;
+        return res.send(JSON.parse(content));
+    });
+
+})
+
+app.get("/api/autocomplete", function(req, res) {
+    var url_parts = url.parse(req.url, true);
+    var query = url_parts.query;
+    var input = encodeURI(query['input']);
+    var options = {
+        host: 'maps.googleapis.com',
+        path: '/maps/api/place/autocomplete/json?'
+            + 'input=' + input
+            + '&key=' + process.env['GOOGLE_KEY'],
+        method: 'GET'
+    }
+
+    options['path'] = encodeURI(options['path']);
+
+    https.get(options, function(response) {
+        console.log(response);
+        response.on('data', function(data) {
+            console.log(data.toString('utf8'));
+            //res.send(data.toString('utf8'));
+        });
+    });
+});
+
 app.post("/api/save", function(req, res) {
     var token = tokenGen(10);
 
