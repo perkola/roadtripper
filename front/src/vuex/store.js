@@ -29,6 +29,9 @@ const mutations = {
     },
     DECREMENT_DURATION(state) {
         state.duration--
+    },
+    SET_DURATION(state, duration) {
+        state.duration = duration
     }
 }
 

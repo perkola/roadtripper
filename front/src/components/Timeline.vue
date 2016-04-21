@@ -24,11 +24,8 @@ export default {
     computed: {
         timelineDays() {
             var start = m(this.startdate, "YYYY-MM-DD")
-            console.log("+", start)
             var end = m(this.startdate, "YYYY-MM-DD").add(18, 'days')
-            console.log("++", end)
             var range = m.range(start, end)
-            console.log(range)
             var days  = []
 
             range.by('days', function(moment) {

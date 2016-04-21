@@ -27,7 +27,7 @@ app.get("/api/citydistance", function(req, res) {
     https.get(options, function(response) {
         response.on('data', function(data) {
             console.log(data.toString('utf8'));
-            res.send(data.toString('utf8'));
+            return res.send(data.toString('utf8'));
         });
     });
 });
@@ -68,10 +68,12 @@ app.get("/api/autocomplete", function(req, res) {
     options['path'] = encodeURI(options['path']);
 
     https.get(options, function(response) {
-        console.log(response);
+        var body = [];
         response.on('data', function(data) {
-            console.log(data.toString('utf8'));
-            //res.send(data.toString('utf8'));
+            body.push(data);
+        }).on('end', function() {
+            body = Buffer.concat(body).toString();
+            return res.send(JSON.parse(body));
         });
     });
 });
@@ -87,8 +89,7 @@ app.post("/api/save", function(req, res) {
     req.on('data', function(chunk) {
         fs.writeFile('../roadtrips/' + token + '.rdt', chunk.toString(), function(err) {
             if (err) {
-                res.send("ERROR");
-                return;
+                return res.send("ERROR");
             }
             console.log("Wrote to file");
         });
