@@ -68,8 +68,6 @@ export default {
       }
   },
   ready() {
-    console.log("1", this.cities)
-    console.log("2", this.startdate)
     var idx = this.$route.params.id
     if (idx) {
         var self = this
@@ -120,7 +118,7 @@ export default {
             this.predictions = []
             return;
         }
-        var autocomplete = this.$http.get('http://localhost:8080/api/autocomplete?input=' + encodeURI(this.city));
+        var autocomplete = this.$http.post('http://localhost:8080/api/autocomplete', this.city);
         var self = this;
         autocomplete.then(function(data) {
             if (data['data']['predictions']) {
