@@ -53,27 +53,34 @@ app.get("/api/roadtrip", function(req, res) {
 
 })
 
-app.get("/api/autocomplete", function(req, res) {
-    var url_parts = url.parse(req.url, true);
-    var query = url_parts.query;
-    var input = encodeURI(query['input']);
-    var options = {
-        host: 'maps.googleapis.com',
-        path: '/maps/api/place/autocomplete/json?'
-            + 'input=' + input
-            + '&key=' + process.env['GOOGLE_KEY'],
-        method: 'GET'
-    }
+app.post("/api/autocomplete", function(req, res) {
 
-    options['path'] = encodeURI(options['path']);
+    var body = [];
+    req.on('data', function(chunk) {
+        body.push(chunk);
+    });
 
-    https.get(options, function(response) {
-        var body = [];
-        response.on('data', function(data) {
-            body.push(data);
-        }).on('end', function() {
-            body = Buffer.concat(body).toString();
-            return res.send(JSON.parse(body));
+    req.on('end', function() {
+        var cityCompletion = encodeURI(body.toString());
+
+        var options = {
+            host: 'maps.googleapis.com',
+            path: '/maps/api/place/autocomplete/json?'
+                + 'input=' + cityCompletion
+                + '&key=' + process.env['GOOGLE_KEY'],
+            method: 'GET'
+        }
+
+        console.log(options);
+
+        return https.get(options, function(response) {
+            var body = [];
+            return response.on('data', function(data) {
+                body.push(data);
+            }).on('end', function() {
+                body = Buffer.concat(body).toString();
+                return res.send(JSON.parse(body));
+            });
         });
     });
 });
