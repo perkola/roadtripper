@@ -76,11 +76,6 @@ export default {
             setDate(this.$store, "startdate", yo.startdate)
             setDuration(this.$store, yo.duration)
         })
-        /*
-        response.data            response.data.cities.forEach(function(city) {
-                        addCity(self.$store, city)
-                    })
-        */
     }
   },
   computed: {
@@ -93,6 +88,7 @@ export default {
       console.log(e)
     },
     autocomplete: function(e) {
+        return;
         var autocomplete = this.$http.get('http://localhost:8080/api/autocomplete?input=' + encodeURI(this.city));
         var self = this;
         autocomplete.then(function(data) {
@@ -104,10 +100,6 @@ export default {
         });
     },
     addNewCity: function() {
-        var transitionTimeRaw = 13500;
-        var duration = m.duration(transitionTimeRaw, 'seconds');
-        console.log(duration.humanize());
-        return;
         if (! this.city) {
             return
         }
@@ -119,8 +111,8 @@ export default {
             var res = this.getCityDistance(prevCity['name'], city['name']);
             res.then(function(value) {
                 prevCity['transitionTimeRaw'] = value['rows'][0]['elements'][0]['duration']['value'];
-                var duration = moment.duration(prevCity['transitionTimeRaw'], 'seconds');
-                prevCity['transitionTime'] = duration.humanize();
+                var duration = m.duration(prevCity['transitionTimeRaw'], 'seconds');
+                prevCity['transitionTime'] = duration.hours() + 'h ' + duration.minutes() + 'm';
                 console.log(duration.humanize());
             }, function(value) {
                 console.log("Failed to get city distance");
