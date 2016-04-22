@@ -24,6 +24,11 @@ const mutations = {
     ADD_CITY(state, city) {
         state.cities.push(city)
     },
+    REMOVE_CITY(state, city) {
+        state.cities = state.cities.filter(function(obj) {
+            return obj.name !== city.name;
+        });
+    },
     INCREMENT_DURATION(state) {
         state.duration++
     },

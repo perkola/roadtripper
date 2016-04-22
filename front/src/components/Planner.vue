@@ -9,8 +9,17 @@ div.navbar
     h1.navbar__logo #[a(v-link="{ path: '/' }") Roadtripper]
     div.navbar__city-search(:class="{ 'test': yo }")
         span(v-show="yo", transition="expand") Type the name of a city...
-        input(type="text", placeholder="San Francisco", v-model="city", @keyup.enter="addNewCity" @keyup="autocomplete | debounce 300")
-        span {{ predictions | json }}
+        input(
+            type="text", placeholder="San Francisco", v-model="city",
+            @blur="clear()",
+            @keyup.enter="addNewCity",
+            @keyup.down="selectNext()",
+            @keyup.up="selectPrev()",
+            @keyup="autocomplete | debounce 500"
+        )
+        div.predictions
+            span.prediction(v-for="(index, prediction) in predictions", :class="{ 'prediction--selected': index == predIndex }")
+                {{ prediction.description }}
         button(@click="addNewCity") #[i.material-icons add] Add city
     a.navbar__button(v-if="cities.length", transition="modal", @click="saveRoadtrip()") Save roadtrip #[i.material-icons exit_to_app]
 
@@ -37,8 +46,9 @@ export default {
   name: 'Planner',
   data: function data() {
     return {
-      cities: [],
+      //cities: [],
       predictions: [],
+      predIndex: -1,
       center: { lat: 10, lng: 11 },
       zoom: 5,
       mapType: 'terrain',
@@ -58,6 +68,8 @@ export default {
       }
   },
   ready() {
+    console.log("1", this.cities)
+    console.log("2", this.startdate)
     var idx = this.$route.params.id
     if (idx) {
         var self = this
@@ -84,10 +96,30 @@ export default {
       }
   },
   methods: {
+    clear() {
+        this.predIndex = -1
+        this.predictions = []
+    },
+    selectNext() {
+        if (this.predIndex < 4) {
+            this.predIndex++
+            this.city = this.predictions[this.predIndex].description
+        }
+    },
+    selectPrev() {
+        if (this.predIndex >= 0) {
+            this.predIndex--
+            this.city = this.predictions[this.predIndex].description
+        }
+    },
     showCity: function(e) {
       console.log(e)
     },
     autocomplete: function(e) {
+        if (! this.city) {
+            this.predictions = []
+            return;
+        }
         var autocomplete = this.$http.post('http://localhost:8080/api/autocomplete', this.city);
         var self = this;
         autocomplete.then(function(data) {
@@ -98,25 +130,29 @@ export default {
             }
         });
     },
+    removeCity(city) {
+        console.log(city)
+    },
     addNewCity: function() {
-        if (! this.city) {
-            return
-        }
-        var city = { name: this.city, activities: [], count: 1, transitionTime: '-', nextCity: '' }
-        var self = this;
-        this.cities.push(city)
-        if (this.cities.length > 1) {
-            var prevCity = this.cities[this.cities.length - 2];
-            prevCity['nextCity'] = city;
-            var res = this.getCityDistance(prevCity['name'], city['name']);
-            res.then(function(value) {
-                self.updateCityTransition(prevCity, value);
-            }, function(value) {
-                console.log("Failed to get city distance");
-            });
-        }
-        this.city = null
-        addCity(this.$store, city)
+      if (! this.city) {
+          return
+      }
+      this.predictions = []
+      this.predIndex = -1
+      var city = { name: this.city, activities: [], count: 1, transitionTime: '-', nextCity: '' }
+      //this.cities.push(city)
+      if (this.cities.length > 1) {
+          var prevCity = this.cities[this.cities.length - 2];
+          prevCity['nextCity'] = city;
+          var res = this.getCityDistance(prevCity['name'], city['name']);
+          res.then(function(value) {
+             prevCity['transitionTime'] = value['rows'][0]['elements'][0]['duration']['text'];
+          }, function(value) {
+              console.log("Failed to get city distance");
+          });
+      }
+      this.city = null
+      addCity(this.$store, city)
     },
     /* this will update all transition times in the roadtrip */
     updateCityTransitions() {
