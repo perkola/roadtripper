@@ -48,7 +48,7 @@ export default {
     return {
       //cities: [],
       predictions: [],
-      predIndex: -1,
+      predIndex: 0,
       center: { lat: 10, lng: 11 },
       zoom: 5,
       mapType: 'terrain',
@@ -95,19 +95,19 @@ export default {
   },
   methods: {
     clear() {
-        this.predIndex = -1
+        this.predIndex = 0
         this.predictions = []
     },
     selectNext() {
         if (this.predIndex < 4) {
             this.predIndex++
-            this.city = this.predictions[this.predIndex].description
+            //this.city = this.predictions[this.predIndex].description
         }
     },
     selectPrev() {
-        if (this.predIndex >= 0) {
+        if (this.predIndex > 0) {
             this.predIndex--
-            this.city = this.predictions[this.predIndex].description
+            //this.city = this.predictions[this.predIndex].description
         }
     },
     showCity: function(e) {
@@ -135,10 +135,11 @@ export default {
       if (! this.city) {
           return
       }
-      this.predictions = []
-      this.predIndex = -1
-      var city = { name: this.city, activities: [], count: 1, transitionTime: '-', nextCity: '' }
+      var selectedCity = this.predictions[this.predIndex].description
+      var city = { name: selectedCity, activities: [], count: 1, transitionTime: '-', nextCity: '' }
       //this.cities.push(city)
+      this.predictions = []
+      this.predIndex = 0
       if (this.cities.length > 1) {
           var prevCity = this.cities[this.cities.length - 2];
           prevCity['nextCity'] = city;
