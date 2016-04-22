@@ -1,7 +1,7 @@
 <template lang="jade">
 div.roadtrip-city
   div.roadtrip-city__content(:class="yolo")
-    a.roadtrip-city__content__close(@click="show = false") #[i.material-icons close]
+    a.roadtrip-city__content__close(@click="removeCity(city)") #[i.material-icons close]
     div.roadtrip-city__content__title
       span {{ city.name }}
       div
@@ -40,9 +40,14 @@ div.roadtrip-city
 </template>
 
 <script>
-import { incrementDuration, decrementDuration } from '../vuex/actions'
+import { incrementDuration, decrementDuration, removeCity } from '../vuex/actions'
 
 export default {
+    vuex: {
+        actions: {
+            removeCity
+        }
+    },
     props: {
         city: {
             type: Object,

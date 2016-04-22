@@ -10,6 +10,10 @@ export const addCity = ({ dispatch }, city) => {
     dispatch("ADD_CITY", city)
 }
 
+export const removeCity = ({ dispatch }, city) => {
+    dispatch("REMOVE_CITY", city)
+}
+
 export const incrementDuration = ({ dispatch }) => {
     dispatch("INCREMENT_DURATION")
 }
