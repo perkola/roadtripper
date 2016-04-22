@@ -145,15 +145,12 @@ export default {
       if (! this.city) {
           return
       }
-      var selectedCity = this.predictions[this.predIndex].description
-      var city = { name: selectedCity, activities: [], count: 1, transitionTime: '-', nextCity: '' }
-      //this.cities.push(city)
-      this.predictions = []
-      this.predIndex = 0
+      var city = { name: this.city.split(",")[0], activities: [], count: 1, transitionTime: '-', nextCity: '', rawObj: this.predictions[this.predIndex] }
+      console.log(this.predictions[this.predIndex]);
       if (this.cities.length > 1) {
           var prevCity = this.cities[this.cities.length - 2];
           prevCity['nextCity'] = city;
-          var res = this.getCityDistance(prevCity['name'], city['name']);
+          var res = this.getCityDistance(prevCity['rawObj'], city['rawObj']);
           res.then(function(value) {
              prevCity['transitionTime'] = value['rows'][0]['elements'][0]['duration']['text'];
           }, function(value) {
@@ -161,6 +158,8 @@ export default {
           });
       }
       this.city = null
+      this.predictions = []
+      this.predIndex = -1
       addCity(this.$store, city)
     },
     /* this will update all transition times in the roadtrip */
@@ -172,7 +171,7 @@ export default {
                 var nextCity = this.cities[i+1];
 
                 thisCity['nextCity'] = nextCity;
-                var res = this.getCityDistance(thisCity['name'], nextCity['name']);
+                var res = this.getCityDistance(thisCity['rawObj'], nextCity['rawObj']);
                 res.then(function(value) {
                     self.updateCityTransition(thisCity, value);
                 }, function (value) {
@@ -194,8 +193,12 @@ export default {
         }
     },
     getCityDistance: function(from, to) {
+        console.log(from);
+        return;
+        var fromId = from['reference'];
+        var toId = from['reference'];
         var qs = require('querystring');
-        var query = qs.stringify({ from: from, to: to });
+        var query = qs.stringify({ fromId: from, to: toId });
         var url = 'http://localhost:8080/api/citydistance?' + query;
 
         return this.$http.get(url).then(
