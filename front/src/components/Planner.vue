@@ -11,14 +11,19 @@ div.navbar
         span(v-show="yo", transition="expand") Type the name of a city...
         input(
             type="text", placeholder="San Francisco", v-model="city",
-            @blur="clear()",
+            @blur="clear()"
             @keyup.enter="addNewCity",
             @keyup.down="selectNext()",
             @keyup.up="selectPrev()",
             @keyup="autocomplete | debounce 500"
         )
         div.predictions
-            span.prediction(v-for="(index, prediction) in predictions", :class="{ 'prediction--selected': index == predIndex }")
+            span.prediction(
+                v-for="(index, prediction) in predictions",
+                :class="{ 'prediction--selected': index == predIndex }",
+                @mouseenter="selectThis(index)",
+                @click="addNewCity"
+            )
                 {{ prediction.description }}
         button(@click="addNewCity") #[i.material-icons add] Add city
     a.navbar__button(v-if="cities.length", transition="modal", @click="saveRoadtrip()") Save roadtrip #[i.material-icons exit_to_app]
@@ -48,7 +53,7 @@ export default {
     return {
       //cities: [],
       predictions: [],
-      predIndex: -1,
+      predIndex: 0,
       center: { lat: 10, lng: 11 },
       zoom: 5,
       mapType: 'terrain',
@@ -95,19 +100,24 @@ export default {
   },
   methods: {
     clear() {
-        this.predIndex = -1
-        this.predictions = []
+        setTimeout( function(){
+            this.predIndex = 0
+            this.predictions = []
+        }.bind(this),1000)
+    },
+    selectThis(index) {
+        this.predIndex = index
     },
     selectNext() {
         if (this.predIndex < 4) {
             this.predIndex++
-            this.city = this.predictions[this.predIndex].description
+            //this.city = this.predictions[this.predIndex].description
         }
     },
     selectPrev() {
-        if (this.predIndex >= 0) {
+        if (this.predIndex > 0) {
             this.predIndex--
-            this.city = this.predictions[this.predIndex].description
+            //this.city = this.predictions[this.predIndex].description
         }
     },
     showCity: function(e) {
