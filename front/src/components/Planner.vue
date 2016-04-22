@@ -11,7 +11,7 @@ div.navbar
         span(v-show="yo", transition="expand") Type the name of a city...
         input(
             type="text", placeholder="San Francisco", v-model="city",
-            @blur="clear()"
+            @blur="clear()",
             @keyup.enter="addNewCity",
             @keyup.down="selectNext()",
             @keyup.up="selectPrev()",
@@ -103,7 +103,7 @@ export default {
         setTimeout( function(){
             this.predIndex = 0
             this.predictions = []
-        }.bind(this),1000)
+        }.bind(this),100)
     },
     selectThis(index) {
         this.predIndex = index
@@ -145,7 +145,8 @@ export default {
       if (! this.city) {
           return
       }
-      var city = { name: this.city.split(",")[0], activities: [], count: 1, transitionTime: '-', nextCity: '', rawObj: this.predictions[this.predIndex] }
+      var selectedCity = this.predictions[this.predIndex].description
+      var city = { name: selectedCity.split(",")[0], activities: [], count: 1, transitionTime: '-', nextCity: '', rawObj: this.predictions[this.predIndex] }
       console.log(this.predictions[this.predIndex]);
       if (this.cities.length > 1) {
           var prevCity = this.cities[this.cities.length - 2];
@@ -159,7 +160,7 @@ export default {
       }
       this.city = null
       this.predictions = []
-      this.predIndex = -1
+      this.predIndex = 0
       addCity(this.$store, city)
     },
     /* this will update all transition times in the roadtrip */
