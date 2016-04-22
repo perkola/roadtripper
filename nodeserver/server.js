@@ -67,6 +67,8 @@ app.post("/api/autocomplete", function(req, res) {
             host: 'maps.googleapis.com',
             path: '/maps/api/place/autocomplete/json?'
                 + 'input=' + cityCompletion
+                + '&types=(cities)'
+                + '&radius=20000000'
                 + '&key=' + process.env['GOOGLE_KEY'],
             method: 'GET'
         }
