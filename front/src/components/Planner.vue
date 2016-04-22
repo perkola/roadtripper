@@ -147,6 +147,7 @@ export default {
       }
       var city = { name: this.city.split(",")[0], activities: [], count: 1, transitionTime: '-', nextCity: '', rawObj: this.predictions[this.predIndex] }
       console.log(this.predictions[this.predIndex]);
+      addCity(this.$store, city)
       if (this.cities.length > 1) {
           var prevCity = this.cities[this.cities.length - 2];
           prevCity['nextCity'] = city;
@@ -160,7 +161,6 @@ export default {
       this.city = null
       this.predictions = []
       this.predIndex = -1
-      addCity(this.$store, city)
     },
     /* this will update all transition times in the roadtrip */
     updateCityTransitions() {
@@ -193,8 +193,8 @@ export default {
         }
     },
     getCityDistance: function(from, to) {
+        console.log('Getting city distance');
         console.log(from);
-        return;
         var fromId = from['reference'];
         var toId = from['reference'];
         var qs = require('querystring');
