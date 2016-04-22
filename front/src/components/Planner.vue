@@ -104,16 +104,14 @@ export default {
             return
         }
         var city = { name: this.city, activities: [], count: 1, transitionTime: '-', nextCity: '' }
+        var self = this;
         this.cities.push(city)
         if (this.cities.length > 1) {
             var prevCity = this.cities[this.cities.length - 2];
             prevCity['nextCity'] = city;
             var res = this.getCityDistance(prevCity['name'], city['name']);
             res.then(function(value) {
-                prevCity['transitionTimeRaw'] = value['rows'][0]['elements'][0]['duration']['value'];
-                var duration = m.duration(prevCity['transitionTimeRaw'], 'seconds');
-                prevCity['transitionTime'] = duration.hours() + 'h ' + duration.minutes() + 'm';
-                console.log(duration.humanize());
+                self.updateCityTransition(prevCity, value);
             }, function(value) {
                 console.log("Failed to get city distance");
             });
@@ -124,6 +122,7 @@ export default {
     /* this will update all transition times in the roadtrip */
     updateCityTransitions() {
         if (this.cities.length > 1) {
+            var self = this;
             for (var i = 0; i < this.cities.length - 1; i++) {
                 var thisCity = this.cities[i];
                 var nextCity = this.cities[i+1];
@@ -131,8 +130,7 @@ export default {
                 thisCity['nextCity'] = nextCity;
                 var res = this.getCityDistance(thisCity['name'], nextCity['name']);
                 res.then(function(value) {
-                    thisCity['transitionTime']
-                        = value['rows'][0]['elements'][0]['duration']['text'];
+                    self.updateCityTransition(thisCity, value);
                 }, function (value) {
                     console.log("Failed to get city distance between ",
                         thisCity['name'], " and ", nextCity['name']);
@@ -140,14 +138,32 @@ export default {
             }
         }
     },
+    updateCityTransition(city, value) {
+        let tTime = value['rows'][0]['elements'][0]['duration']['value'];
+        if (tTime) {
+            city['transitionTimeRaw'] = tTime;
+            var duration = m.duration(city['transitionTimeRaw'], 'seconds');
+            city['transitionTime'] = duration.hours() + ' hours ' + duration.minutes() + ' min';
+        } else {
+            city['transitionTimeRaw'] = -1;
+            city['transitionTime'] = "-";
+        }
+    },
     getCityDistance: function(from, to) {
-        return this.$http.get('http://localhost:8080/api/citydistance?'
-          + 'from=' + encodeURI(from)
-          + '&to=' + encodeURI(to),
-          function(data, status, request) {
-              return data;
-          }
+        var qs = require('querystring');
+        var query = qs.stringify({ from: from, to: to });
+        var url = 'http://localhost:8080/api/citydistance?' + query;
+
+        return this.$http.get(url).then(
+            function (response) {
+                if (response.ok) {
+                    return response.data;
+                }
+            }, function (err) {
+                console.log(err);
+            }
         );
+
     },
     saveRoadtrip: function() {
         console.log("Saving roadtrip");
