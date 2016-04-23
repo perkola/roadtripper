@@ -6,11 +6,12 @@ Vue.use(Vuex)
 
 const state = {
     dates: {
-        'startdate': m()
+        'startdate': m(),
+        'enddate': m().add(16, 'days')
     },
     startdate: m(),
     duration: -1,
-    enddate: m().day(16),
+    enddate: m(),
     cities: []
 }
 
@@ -19,14 +20,14 @@ const mutations = {
         state.dates.startdate = moment
     },
     SET_END_DATE(state, moment) {
-        state.enddate = moment
+        state.dates.enddate = moment
     },
     ADD_CITY(state, city) {
         state.cities.push(city)
     },
     REMOVE_CITY(state, city) {
         state.cities = state.cities.filter(function(obj) {
-            return obj.name !== city.name;
+            return obj.id !== city.id;
         });
     },
     INCREMENT_DURATION(state) {

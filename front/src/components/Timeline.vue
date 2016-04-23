@@ -16,7 +16,7 @@ export default {
     vuex: {
         getters: {
             startdate: state => state.dates.startdate,
-            enddate: state => state.enddate,
+            enddate: state => state.dates.enddate,
             cities: state => state.cities,
             duration: state => state.duration
         }
@@ -24,7 +24,8 @@ export default {
     computed: {
         timelineDays() {
             var start = m(this.startdate, "YYYY-MM-DD")
-            var end = m(this.startdate, "YYYY-MM-DD").add(18, 'days')
+            var end = m(this.enddate, "YYYY-MM-DD")
+            console.log("1", end)
             var range = m.range(start, end)
             var days  = []
 
