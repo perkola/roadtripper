@@ -42,6 +42,7 @@ div.roadtrip-city
 
 <script>
 import { incrementDuration, decrementDuration, removeCity } from '../vuex/actions'
+import crypto from 'crypto'
 
 export default {
     vuex: {
@@ -85,21 +86,23 @@ export default {
         },
         addActivity() {
             if (!this.addAct) {
-              return
+                return
             }
             if (this.city['activities'].length > 0) {
-                this.city['activities'].push({name: this.addAct})
+                this.city['activities'].push({name: this.addAct, id: crypto.randomBytes(20).toString('hex')})
+            } else if (this.city['activities'].length > 10) {
+                return
             } else {
-                this.city['activities'] = [{name: this.addAct }]
+                this.city['activities'] = [{name: this.addAct, id: crypto.randomBytes(20).toString('hex') }]
             }
             this.addAct = ''
         },
         removeActivity(act) {
             for (var i = 0; i < this.city['activities'].length; i++) {
-              if (this.city['activities'][i]['name'] === act['name']) {
-                console.log("Removing ", act['name']);
-                this.city['activities'].splice(i, 1);
-              }
+                if (this.city['activities'][i]['id'] === act['id']) {
+                    console.log("Removing ", act['name']);
+                    this.city['activities'].splice(i, 1);
+                }
             }
         }
     }
