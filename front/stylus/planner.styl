@@ -129,12 +129,15 @@
                 transition all 0.5s ease
                 &__icon
                     display block
+                    cursor pointer
                     vertical-align middle
                     color rgba(black, 0.4)
                     background darken(white, 10%)
                     padding 4px
                     text-align center
                     margin 0
+                    &:hover
+                      background darken(white, 30%)
                 &__input
                     padding 8px
                     border none
@@ -143,6 +146,19 @@
                     font-size 14px
                     height 18px
                     width 137px
+            &__remove-activity
+                &__icon
+                    display block
+                    cursor pointer
+                    vertical-align middle
+                    color rgba(black, 0.4)
+                    padding 4px
+                    text-align center
+                    margin 0
+                    margin-right 6px
+                    &:hover
+                      color rgba(black, 0.8)
+                      background darken(white, 10%)
     &__transition
         position relative
         height 430px
