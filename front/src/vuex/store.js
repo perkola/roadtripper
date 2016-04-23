@@ -27,7 +27,7 @@ const mutations = {
     },
     REMOVE_CITY(state, city) {
         state.cities = state.cities.filter(function(obj) {
-            return obj.name !== city.name;
+            return obj.id !== city.id;
         });
     },
     INCREMENT_DURATION(state) {

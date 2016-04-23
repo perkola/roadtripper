@@ -40,6 +40,7 @@ div.planner
 <script>
 
 //import {load, Map } from 'vue-google-maps'
+import crypto from 'crypto'
 import Timeline from './Timeline.vue'
 import City from './City.vue'
 import { addCity, setDuration, setDate } from '../vuex/actions'
@@ -63,6 +64,7 @@ export default {
   vuex: {
       getters: {
           startdate: state => state.dates.startdate,
+          enddate: state => state.dates.enddate,
           cities: state => state.cities,
           duration: state => state.duration
       },
@@ -84,12 +86,12 @@ export default {
         data.then(function(yo) {
             var self = this
             yo.cities.forEach(function(city) {
-                console.log(city)
-                self.cities.push(city)
                 addCity(self.$store, city)
             })
-            setDate(this.$store, "startdate", yo.startdate)
-            setDuration(this.$store, yo.duration)
+            setDate(this.$store, 'startdate', yo.startdate)
+            console.log("1", yo.startdate)
+            setDate(this.$store, 'enddate', yo.enddate)
+            console.log("2", yo.enddate)
         })
     }
   },
@@ -146,7 +148,7 @@ export default {
           return
       }
       var selectedCity = this.predictions[this.predIndex].description
-      var city = { name: selectedCity.split(",")[0], activities: [], count: 1, transitionTime: '-', nextCity: '', rawObj: this.predictions[this.predIndex] }
+      var city = { id: crypto.randomBytes(20).toString('hex'), name: selectedCity.split(",")[0], activities: [], count: 1, transitionTime: '-', nextCity: '', rawObj: this.predictions[this.predIndex] }
       console.log(this.predictions[this.predIndex]);
       addCity(this.$store, city)
       if (this.cities.length > 1) {
@@ -217,14 +219,14 @@ export default {
 
     },
     saveRoadtrip: function() {
-        console.log("Saving roadtrip");
+        console.log("Saving roadtrip...");
         var data = {cities: [], date: []};
         this.cities.forEach(function (c, i) {
             data['cities'].push(c);
         });
 
         data['startdate'] = this.startdate
-        data['duration'] = this.duration
+        data['enddate'] = this.enddate
 
         console.log(data);
 
