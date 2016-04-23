@@ -18,8 +18,8 @@ app.post("/api/citydistance", function(req, res) {
         var options = {
             host: 'maps.googleapis.com',
             path: '/maps/api/distancematrix/json?'
-                + 'origins=' + query['from']
-                + '&destinations=' + query['to']
+                + 'origins=place_id:' + query['from']
+                + '&destinations=place_id:' + query['to']
                 + '&key=' + process.env['GOOGLE_KEY'],
             method: 'GET'
         };
