@@ -101,8 +101,8 @@ export default {
   methods: {
     clear() {
         setTimeout( function(){
-            this.predIndex = 0
-            this.predictions = []
+            //this.predIndex = 0
+            //this.predictions = []
         }.bind(this),100)
     },
     selectThis(index) {
@@ -162,7 +162,7 @@ export default {
       this.city = null
       this.predictions = []
       this.predIndex = 0
-      addCity(this.$store, city)
+      //addCity(this.$store, city)
     },
     /* this will update all transition times in the roadtrip */
     updateCityTransitions() {
