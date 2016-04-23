@@ -1,6 +1,6 @@
 <template lang="jade">
 div.datepicker
-    //div.datepicker__title(@click="show = !show") {{ display }}
+    div.datepicker__title(@click="show = !show") {{ display }}
     div.datepicker__selected(@click="show = !show")
         {{ selected.format('MMMM, D - YYYY') }}
         #[i.material-icons date_range]
