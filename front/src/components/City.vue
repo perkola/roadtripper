@@ -11,9 +11,10 @@ div.roadtrip-city
     div.roadtrip-city__content__content
       span.activities Activities
       div.activity(v-for="act in city.activities", transition="modal")
+        i(@click="removeActivity(act)").material-icons.roadtrip-city__content__content__remove-activity__icon clear
         {{ act.name }}
       div.roadtrip-city__content__content__add-activity
-          i.material-icons.roadtrip-city__content__content__add-activity__icon add
+          i(@click="addActivity").material-icons.roadtrip-city__content__content__add-activity__icon add
           input(placeholder="Visit a museum", v-on:keyup.enter="addActivity", v-model="addAct").roadtrip-city__content__content__add-activity__input
     //
       input(form="POST").roadtrip-city__add-activity
@@ -41,6 +42,7 @@ div.roadtrip-city
 
 <script>
 import { incrementDuration, decrementDuration, removeCity } from '../vuex/actions'
+import crypto from 'crypto'
 
 export default {
     vuex: {
@@ -83,12 +85,25 @@ export default {
             }
         },
         addActivity() {
+            if (!this.addAct) {
+                return
+            }
             if (this.city['activities'].length > 0) {
-                this.city['activities'].push({name: this.addAct})
+                this.city['activities'].push({name: this.addAct, id: crypto.randomBytes(20).toString('hex')})
+            } else if (this.city['activities'].length > 10) {
+                return
             } else {
-                this.city['activities'] = [{name: this.addAct }]
+                this.city['activities'] = [{name: this.addAct, id: crypto.randomBytes(20).toString('hex') }]
             }
             this.addAct = ''
+        },
+        removeActivity(act) {
+            for (var i = 0; i < this.city['activities'].length; i++) {
+                if (this.city['activities'][i]['id'] === act['id']) {
+                    console.log("Removing ", act['name']);
+                    this.city['activities'].splice(i, 1);
+                }
+            }
         }
     }
 }

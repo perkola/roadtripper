@@ -4,9 +4,40 @@ var express = require("express");
 var https = require('https');
 var app = express();
 
-app.get("/api/citydistance", function(req, res) {
+app.post("/api/citydistance", function(req, res) {
+    var body = [];
+    req.on('data', function(chunk) {
+        body.push(chunk);
+    });
+
+    req.on('end', function() {
+        var query = JSON.parse(body.toString());
+
+        console.log(query);
+
+        var options = {
+            host: 'maps.googleapis.com',
+            path: '/maps/api/distancematrix/json?'
+                + 'origins=place_id:' + query['from']
+                + '&destinations=place_id:' + query['to']
+                + '&key=' + process.env['GOOGLE_KEY'],
+            method: 'GET'
+        };
+
+        console.log(options);
+
+        return https.get(options, function(response) {
+            var body = [];
+            return response.on('data', function(data) {
+                body.push(data);
+            }).on('end', function() {
+                body = Buffer.concat(body).toString();
+                return res.send(JSON.parse(body));
+            });
+        });
+    });
     /* some server side logic */
-    var url_parts = url.parse(req.url, true);
+    /*var url_parts = url.parse(req.url, true);
     var query = url_parts.query;
     var froms = encodeURI(query['from']);
     var to = encodeURI(query['to']);
@@ -29,7 +60,7 @@ app.get("/api/citydistance", function(req, res) {
             console.log(data.toString('utf8'));
             return res.send(data.toString('utf8'));
         });
-    });
+    });*/
 });
 
 app.get("/api/roadtrip", function(req, res) {

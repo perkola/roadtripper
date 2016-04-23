@@ -214,15 +214,14 @@ export default {
     getCityDistance: function(from, to) {
         console.log('Getting city distance');
         console.log(from);
-        var fromId = from['description'];
-        var toId = to['description'];
+        var fromId = from['place_id'];
+        var toId = to['place_id'];
         console.log("From ", fromId, " to ", toId);
-        var qs = require('querystring');
-        var query = qs.stringify({ from: fromId, to: toId });
-        var url = 'http://localhost:8080/api/citydistance?' + query;
+        var query = { from: encodeURI(fromId), to: encodeURI(toId) };
+        var url = 'http://localhost:8080/api/citydistance';
 
         console.log(url);
-        return this.$http.get(url).then(
+        return this.$http.post(url, query).then(
             function (response) {
                 if (response.ok) {
                     return response.data;
