@@ -7,6 +7,7 @@
   )
 div.navbar
     h1.navbar__logo #[a(v-link="{ path: '/' }") Roadtripper]
+    span.navbar__total-time Total time: {{ totalTime }}
     div.navbar__city-search(:class="{ 'test': yo }")
         span(v-show="yo", transition="expand") Type the name of a city...
         input(
@@ -53,6 +54,7 @@ export default {
   data: function data() {
     return {
       //cities: [],
+      totalTime: "",
       predictions: [],
       predIndex: 0,
       center: { lat: 10, lng: 11 },
@@ -122,6 +124,22 @@ export default {
             //this.city = this.predictions[this.predIndex].description
         }
     },
+    updateTotalTime() {
+        if (this.cities.length > 1) {
+          let time = 0
+          let self = this
+          this.cities.forEach(function(e, i) {
+            if (i < self.cities.length - 1) {
+              console.log("prkl", e['transitionTimeRaw']);
+              if (e['transitionTimeRaw']) {
+                time += e['transitionTimeRaw'];
+              }
+              console.log(time);
+            }
+          });
+          this.totalTime = time
+        }
+    },
     showCity: function(e) {
       console.log(e)
     },
@@ -147,6 +165,7 @@ export default {
       if (! this.city) {
           return
       }
+      var self = this
       var selectedCity = this.predictions[this.predIndex].description
       var city = { id: crypto.randomBytes(20).toString('hex'), name: selectedCity.split(",")[0], activities: [], count: 1, transitionTime: '-', nextCity: '', rawObj: this.predictions[this.predIndex] }
       console.log(this.predictions[this.predIndex]);
@@ -156,7 +175,7 @@ export default {
           prevCity['nextCity'] = city;
           var res = this.getCityDistance(prevCity['rawObj'], city['rawObj']);
           res.then(function(value) {
-             prevCity['transitionTime'] = value['rows'][0]['elements'][0]['duration']['text'];
+              self.updateCityTransition(prevCity, value);
           }, function(value) {
               console.log("Failed to get city distance");
           });
@@ -164,10 +183,12 @@ export default {
       this.city = null
       this.predictions = []
       this.predIndex = 0
+      this.updateTotalTime()
       //addCity(this.$store, city)
     },
     /* this will update all transition times in the roadtrip */
     updateCityTransitions() {
+      console.log("Updating city transitions");
         if (this.cities.length > 1) {
             var self = this;
             for (var i = 0; i < this.cities.length - 1; i++) {
@@ -183,6 +204,8 @@ export default {
                         thisCity['name'], " and ", nextCity['name']);
                 });
             }
+        } else if (this.cities.length === 1) {
+            this.cities[0]['transitionTime'] = ""
         }
     },
     updateCityTransition(city, value) {
