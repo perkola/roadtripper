@@ -1,0 +1,58 @@
+.alert
+    width auto
+    display block
+    z-index 9999
+    color black
+
+    &__mask
+        position fixed
+        z-index 9998
+        top 0
+        left 0
+        width 100%
+        height 100%
+        display: table
+        transition opacity .3s ease
+        background-color rgba(black, 0.5)
+
+    &__wrapper
+        display table-cell
+        vertical-align middle
+
+    &__container
+        background white
+        z-index 9999
+        width 340px
+        margin 0px auto
+        position relative
+        padding 20px
+
+    &__heading
+        font-family font-special
+        margin 0
+        text-align center
+
+    &__close
+        position absolute
+        right 20px
+        top 20px
+        color lighten(black, 20%)
+        cursor pointer
+        z-index 9999
+
+    p
+        color black
+        margin 20px 0 10px 0
+
+    .done
+        font-size 84px
+        text-align center
+        display block
+        color success
+
+    .link
+        display block
+        padding 10px
+        background darken(white, 10%)
+        font-family monospace
+        text-align center

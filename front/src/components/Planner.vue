@@ -36,6 +36,16 @@ div.planner
 
   Timeline
 
+div.alert
+    div.alert__mask(v-show="showAlert", transition="modal")
+        div.alert__wrapper
+            div.alert__container
+                a.alert__close(@click="showAlert = false") #[i.material-icons close]
+                i.done.material-icons done
+                h1.alert__heading Roadtrip saved!
+                p Here's the unique link to your roadtrip. Go ahead and share it with your friends:
+                span.link {{ tripLink }}
+
 </template>
 
 <script>
@@ -60,7 +70,9 @@ export default {
       center: { lat: 10, lng: 11 },
       zoom: 5,
       mapType: 'terrain',
-      city: null
+      city: null,
+      showAlert: false,
+      planID: null
     }
   },
   vuex: {
@@ -100,6 +112,9 @@ export default {
   computed: {
       yo() {
           return !this.city && this.cities.length < 1
+      },
+      tripLink() {
+          return window.location.protocol + '//' + window.location.host + '/#!/plan/' + this.planID
       }
   },
   methods: {
@@ -253,13 +268,20 @@ export default {
         console.log(data);
 
         this.$http.post('http://localhost:8080/api/save', data).then(
-            function (data) {
-                console.log(data['data']);
+            function (response) {
+                console.log(response.data)
+                this.planID = response.data
+                this.showAlert = true
             },
             function (err) {
                 console.log(err);
             }
         )
+    }
+  },
+  events: {
+    'update-transitions': function() {
+        this.updateCityTransitions()
     }
   },
   components: {
