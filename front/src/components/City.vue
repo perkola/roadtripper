@@ -79,7 +79,6 @@ export default {
         },
         increment() {
             this.city.count++
-            console.log(this.$store.state)
             incrementDuration(this.$store)
         },
         decrement() {
@@ -104,7 +103,6 @@ export default {
         removeActivity(act) {
             for (var i = 0; i < this.city['activities'].length; i++) {
                 if (this.city['activities'][i]['id'] === act['id']) {
-                    console.log("Removing ", act['name']);
                     this.city['activities'].splice(i, 1);
                 }
             }

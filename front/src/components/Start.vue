@@ -1,7 +1,7 @@
 <template lang="jade">
 div.intro
     h1.intro__title Roadtripper #[span.trademark TM]
-    p.intro__slogan Are you planning the roadtrip of your life? Then Roadtripper#[span.trademark TM] is the tool for you.
+    p.intro__slogan Whether you are planning to travel coast to coast in USA or a roadtrip through Europe - Roadtripper#[span.trademark TM] is the tool that will make the planning a breeze!
     div
         dp.col-50(name="startdate", display="Start date")
         dp.col-50(name="enddate", display="End date")

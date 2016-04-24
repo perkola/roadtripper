@@ -108,7 +108,7 @@ export default {
             this.$set('start', moment)
             this.$set('show', false)
             document.activeElement.blur()
-            console.log("tja", moment)
+            //console.log("tja", moment)
             setDate(this.$store, this.name, moment)
         },
         isToday (moment) {
