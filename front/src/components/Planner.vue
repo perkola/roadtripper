@@ -15,7 +15,7 @@ div.navbar
             @keyup.enter="addNewCity",
             @keyup.down="selectNext()",
             @keyup.up="selectPrev()",
-            @keyup="autocomplete | debounce 500"
+            @keyup="autocomplete | debounce 200"
         )
         div.predictions
             span.prediction(
