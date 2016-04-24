@@ -1,7 +1,7 @@
 <template lang="jade">
 div.roadtrip-city
   div.roadtrip-city__content(:class="yolo")
-    a.roadtrip-city__content__close(@click="removeCity(city)") #[i.material-icons close]
+    a.roadtrip-city__content__close(@click="removeCityHandler(city)") #[i.material-icons close]
     div.roadtrip-city__content__title
       span {{ city.name }}
       div
@@ -73,6 +73,11 @@ export default {
         incrementDuration(this.$store)
     },
     methods: {
+        removeCityHandler(city) {
+            removeCity(this.$store, city)
+            this.$dispatch('update-transitions')
+            console.log("tjaaa")
+        },
         increment() {
             this.city.count++
             console.log(this.$store.state)

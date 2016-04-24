@@ -256,6 +256,11 @@ export default {
         )
     }
   },
+  events: {
+    'update-transitions': function() {
+        this.updateCityTransitions()
+    }
+  },
   components: {
     //Map,
     Timeline,
