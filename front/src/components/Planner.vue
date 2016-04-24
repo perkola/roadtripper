@@ -210,7 +210,8 @@ export default {
         if (tTime) {
             city['transitionTimeRaw'] = tTime;
             var duration = m.duration(city['transitionTimeRaw'], 'seconds');
-            city['transitionTime'] = duration.hours() + ' hours ' + duration.minutes() + ' min';
+            console.log(duration);
+            city['transitionTime'] = (duration.hours() + duration.days()*24) + ' hours ' + duration.minutes() + ' min';
         } else {
             city['transitionTimeRaw'] = -1;
             city['transitionTime'] = "-";
