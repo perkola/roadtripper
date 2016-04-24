@@ -44,6 +44,7 @@ div.alert
                 h1.alert__heading Roadtrip saved!
                 p Here's the unique link to your roadtrip. Go ahead and share it with your friends:
                 span.link {{ tripLink }}
+                p If they have any suggestions, feel free to edit the roadtrip, changes will be saved in a new roadtrip!
 
 </template>
 
