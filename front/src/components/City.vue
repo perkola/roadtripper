@@ -76,7 +76,6 @@ export default {
         removeCityHandler(city) {
             removeCity(this.$store, city)
             this.$dispatch('update-transitions')
-            console.log("tjaaa")
         },
         increment() {
             this.city.count++

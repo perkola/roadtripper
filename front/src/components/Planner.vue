@@ -6,7 +6,7 @@
       :map-type-id.sync="mapType"
   )
 div.navbar
-    h1.navbar__logo #[a(v-link="{ path: '/' }") Roadtripper]
+    h1.navbar__logo #[a(v-link="{ path: '/' }") R#[span.hide-for-small oadtripper]]
     div.navbar__city-search(:class="{ 'test': yo }")
         span(v-show="yo", transition="expand") Type the name of a city...
         input(
@@ -25,15 +25,15 @@ div.navbar
                 @click="addNewCity"
             )
                 {{ prediction.description }}
-        button(@click="addNewCity") #[i.material-icons add] Add city
-    a.navbar__button(v-if="cities.length", transition="modal", @click="saveRoadtrip()") Save roadtrip #[i.material-icons exit_to_app]
+        button(@click="addNewCity") #[i.material-icons add]
+    a.navbar__button(v-if="cities.length", transition="modal", @click="saveRoadtrip()") #[span.hide-for-small Save roadtrip] #[i.material-icons exit_to_app]
 
 div.planner
 
   div.planner-cities
       city(v-for="(index, city) in cities", :city="city", :class="index", transition="modal")
 
-  Timeline
+Timeline
 
 div.alert
     div.alert__mask(v-show="showAlert", transition="modal")

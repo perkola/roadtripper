@@ -1,5 +1,7 @@
 .planner
 
+    padding 20px
+
     &__add-city
 
         &__input
@@ -40,24 +42,26 @@
 
 
 .planner-cities
-    display flex
-    padding 0
+    overflow hidden
+    width 100%
+    margin-bottom 66px
 
 .roadtrip-city
-    width 300px
-    margin-top 20px
+    //margin-top 20px
+    padding 0
     float left
     transition all 0.5s ease
     z-index 1
+    width 100%
+    //column(1, cycle: 1)
 
-    &:first-child
-        padding-left 20px
+    @media screen and (min-width: 960px)
+        span(1/4, cycle: 4)
 
     &:last-child &__transition
         display none
 
     &__content
-        span(3/4)
         background white
         transition all 0.25s ease
         position relative
@@ -67,6 +71,9 @@
         for num in (0..length)
             &.color-{num} &__title
                 background colors[num]
+
+        @media screen and (min-width: 960px)
+            span(3/4)
 
         &__close
             position absolute
@@ -127,6 +134,7 @@
                 margin-top 10px
                 position relative
                 transition all 0.5s ease
+                background red
                 &__icon
                     display block
                     cursor pointer
@@ -136,16 +144,21 @@
                     padding 4px
                     text-align center
                     margin 0
+                    position absolute
                     &:hover
                       background darken(white, 30%)
                 &__input
                     padding 8px
+                    padding-left 40px
+                    box-sizing border-box
+                    height 32px
                     border none
                     font-family font-brand
-                    line-height 1.5
+                    line-height 32px
+                    display block
                     font-size 14px
-                    height 18px
-                    width 137px
+                    width 100%
+                    outline none
             &__remove-activity
                 &__icon
                     display block
@@ -162,8 +175,11 @@
     &__transition
         position relative
         height 107px
-        span(1/4)
         background rgba(white, 0)
+
+        @media screen and (min-width: 960px)
+            span(1/4)
+
         &__time
             font-family font-special
             background rgba(white, 0)
