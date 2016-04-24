@@ -103,9 +103,9 @@ export default {
                 addCity(self.$store, city)
             })
             setDate(this.$store, 'startdate', yo.startdate)
-            console.log("1", yo.startdate)
+            //console.log("1", yo.startdate)
             setDate(this.$store, 'enddate', yo.enddate)
-            console.log("2", yo.enddate)
+            //console.log("2", yo.enddate)
         })
     }
   },
@@ -140,7 +140,7 @@ export default {
         }
     },
     showCity: function(e) {
-      console.log(e)
+      //console.log(e)
     },
     autocomplete: function(e) {
         if (! this.city) {
@@ -151,14 +151,14 @@ export default {
         var self = this;
         autocomplete.then(function(data) {
             if (data['data']['predictions']) {
-                //console.log(data['data']['predictions']);
+                ////console.log(data['data']['predictions']);
                 self.predictions = data['data']['predictions'];
-                console.log(self.predictions[0]['description']);
+                //console.log(self.predictions[0]['description']);
             }
         });
     },
     removeCity(city) {
-        console.log(city)
+        //console.log(city)
     },
     addNewCity: function() {
       if (! this.city) {
@@ -167,7 +167,7 @@ export default {
       var self = this
       var selectedCity = this.predictions[this.predIndex].description
       var city = { id: crypto.randomBytes(20).toString('hex'), name: selectedCity.split(",")[0], activities: [], count: 1, transitionTime: '-', nextCity: '', rawObj: this.predictions[this.predIndex] }
-      console.log(this.predictions[this.predIndex]);
+      //console.log(this.predictions[this.predIndex]);
       addCity(this.$store, city)
       if (this.cities.length > 1) {
           var prevCity = this.cities[this.cities.length - 2];
@@ -176,7 +176,7 @@ export default {
           res.then(function(value) {
               self.updateCityTransition(prevCity, value);
           }, function(value) {
-              console.log("Failed to get city distance");
+              //console.log("Failed to get city distance");
           });
       }
       this.city = null
@@ -186,7 +186,7 @@ export default {
     },
     /* this will update all transition times in the roadtrip */
     updateCityTransitions() {
-      console.log("Updating city transitions");
+      //console.log("Updating city transitions");
         if (this.cities.length > 1) {
             var self = this;
             for (var i = 0; i < this.cities.length - 1; i++) {
@@ -198,8 +198,8 @@ export default {
                 res.then(function(value) {
                     self.updateCityTransition(thisCity, value);
                 }, function (value) {
-                    console.log("Failed to get city distance between ",
-                        thisCity['name'], " and ", nextCity['name']);
+                    //console.log("Failed to get city distance between ",
+                    // thisCity['name'], " and ", nextCity['name']);
                 });
             }
         } else if (this.cities.length === 1) {
@@ -211,7 +211,7 @@ export default {
         if (tTime) {
             city['transitionTimeRaw'] = tTime;
             var duration = m.duration(city['transitionTimeRaw'], 'seconds');
-            console.log(duration);
+            //console.log(duration);
             city['transitionTime'] = (duration.hours() + duration.days()*24) + ' hours ' + duration.minutes() + ' min';
         } else {
             city['transitionTimeRaw'] = -1;
@@ -219,28 +219,28 @@ export default {
         }
     },
     getCityDistance: function(from, to) {
-        console.log('Getting city distance');
-        console.log(from);
+        //console.log('Getting city distance');
+        //console.log(from);
         var fromId = from['place_id'];
         var toId = to['place_id'];
-        console.log("From ", fromId, " to ", toId);
+        //console.log("From ", fromId, " to ", toId);
         var query = { from: encodeURI(fromId), to: encodeURI(toId) };
         var url = 'http://localhost:8080/api/citydistance';
 
-        console.log(url);
+        //console.log(url);
         return this.$http.post(url, query).then(
             function (response) {
                 if (response.ok) {
                     return response.data;
                 }
             }, function (err) {
-                console.log(err);
+                //console.log(err);
             }
         );
 
     },
     saveRoadtrip: function() {
-        console.log("Saving roadtrip...");
+        //console.log("Saving roadtrip...");
         var data = {cities: [], date: []};
         this.cities.forEach(function (c, i) {
             data['cities'].push(c);
@@ -249,16 +249,16 @@ export default {
         data['startdate'] = this.startdate
         data['enddate'] = this.enddate
 
-        console.log(data);
+        //console.log(data);
 
         this.$http.post('http://localhost:8080/api/save', data).then(
             function (response) {
-                console.log(response.data)
+                //console.log(response.data)
                 this.planID = response.data
                 this.showAlert = true
             },
             function (err) {
-                console.log(err);
+                //console.log(err);
             }
         )
     }

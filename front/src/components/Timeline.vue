@@ -25,7 +25,7 @@ export default {
         timelineDays() {
             var start = m(this.startdate, "YYYY-MM-DD")
             var end = m(this.enddate, "YYYY-MM-DD")
-            console.log("1", end)
+            //console.log("1", end)
             var range = m.range(start, end)
             var days  = []
 
