@@ -2,6 +2,9 @@
     background white
     height 50px
     width 100%
+    position fixed
+    top 0
+    z-index 9999
 
     &__logo
         display inline-block
@@ -55,13 +58,18 @@
 
         .predictions
             position absolute
-            width 280px
+            width 200px
             overflow hidden
             z-index 9999 !important
 
+            @media screen and (min-width: 960px)
+                width 280px
+
         .prediction
             display block
+            box-sizing border-box
             padding 5px 15px
+            border-bottom 1px solid darken(white, 20%)
             background white
             color black
             text-align left
