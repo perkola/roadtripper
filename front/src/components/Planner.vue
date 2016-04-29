@@ -147,7 +147,7 @@ export default {
             this.predictions = []
             return;
         }
-        var autocomplete = this.$http.post('http://localhost:8080/api/autocomplete', this.city);
+        var autocomplete = this.$http.post('/api/autocomplete', this.city);
         var self = this;
         autocomplete.then(function(data) {
             if (data['data']['predictions']) {
@@ -225,7 +225,7 @@ export default {
         var toId = to['place_id'];
         //console.log("From ", fromId, " to ", toId);
         var query = { from: encodeURI(fromId), to: encodeURI(toId) };
-        var url = 'http://localhost:8080/api/citydistance';
+        var url = '/api/citydistance';
 
         //console.log(url);
         return this.$http.post(url, query).then(
@@ -251,7 +251,7 @@ export default {
 
         //console.log(data);
 
-        this.$http.post('http://localhost:8080/api/save', data).then(
+        this.$http.post('/api/save', data).then(
             function (response) {
                 //console.log(response.data)
                 this.planID = response.data
